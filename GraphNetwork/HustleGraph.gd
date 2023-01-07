@@ -16,7 +16,8 @@ func _ready():
 	OS.set_low_processor_usage_mode(true)
 
 	add_valid_connection_type(0,0)
-
+	Global.hustle_graph = self
+	
 	update()
 	
 func spawnNode():
@@ -36,3 +37,11 @@ func _on_HustleGraph_connection_request(from, from_slot, to, to_slot):
 
 func _on_HustleGraph_disconnection_request(from, from_slot, to, to_slot):
 	disconnect_node(from, from_slot, to, to_slot)
+
+func _on_resource_dropped(graphNode, _location):
+	if graphNode == null:
+		printerr("HustleGraph didn't get a graphNode")
+	var newGraphNode = graphNode.instance()
+	add_child(newGraphNode)
+	newGraphNode.set_offset(get_local_mouse_position())
+	

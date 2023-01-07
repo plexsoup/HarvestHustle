@@ -1,0 +1,92 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://ResourceCards/ResourceCard.tscn" type="PackedScene" id=1]
+[ext_resource path="res://GraphNetwork/HustleGraph.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Portraits/glasses01.png" type="Texture" id=3]
+[ext_resource path="res://Levels/Hand.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Levels/Level01.gd" type="Script" id=5]
+[ext_resource path="res://Levels/Upgrades.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Levels/ObjectiveSidebar.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Objects/Bicycle.png" type="Texture" id=8]
+[ext_resource path="res://Fonts/SlackeyFont16.tres" type="DynamicFont" id=11]
+
+[node name="Level01" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 5 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Header" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 1024.0
+margin_bottom = 23.0
+alignment = 1
+
+[node name="Title" type="Label" parent="VBoxContainer/Header"]
+margin_left = 442.0
+margin_right = 582.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 11 )
+text = "Harvest Hustle"
+align = 1
+
+[node name="Body" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 27.0
+margin_right = 1024.0
+margin_bottom = 467.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LeftSide" type="ScrollContainer" parent="VBoxContainer/Body"]
+margin_right = 145.0
+margin_bottom = 440.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="Upgrades" parent="VBoxContainer/Body/LeftSide" instance=ExtResource( 6 )]
+margin_right = 145.0
+margin_bottom = 440.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Coder" parent="VBoxContainer/Body/LeftSide/Upgrades" instance=ExtResource( 1 )]
+margin_top = 18.0
+margin_right = 145.0
+margin_bottom = 129.0
+resource_image = ExtResource( 3 )
+resource_name = "coder"
+description = "The coder can establish an automated connection between outputs and inputs, enabling much faster throughput."
+
+[node name="Bicycle" parent="VBoxContainer/Body/LeftSide/Upgrades" instance=ExtResource( 1 )]
+margin_top = 133.0
+margin_right = 145.0
+margin_bottom = 244.0
+resource_image = ExtResource( 8 )
+resource_name = "Bicycle"
+description = "The Bicycle can increase the speed of a manual task-rabbit.
+"
+
+[node name="Board" parent="VBoxContainer/Body" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 149.0
+margin_right = 874.0
+margin_bottom = 440.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+scroll_offset = Vector2( -328, 0 )
+
+[node name="Objective" parent="VBoxContainer/Body" instance=ExtResource( 7 )]
+margin_bottom = 440.0
+
+[node name="Hand" parent="VBoxContainer" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 471.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_stretch_ratio = 0.4
+alignment = 1

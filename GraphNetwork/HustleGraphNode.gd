@@ -1,4 +1,6 @@
 """
+Add CommodityConverter.tscn instances as children to this node.
+
 
 Takes an input and converts it to an output, on a Timer
 - if no input, then generates output from bank account.
@@ -26,10 +28,14 @@ var nextSlotPosition = 1
 enum States { READY, MOVING, RESIZING, DISABLED }
 var State = States.READY
 
+var buffer_size = 10
+var buffer = [] # push and pop product commodity names as required
+
 
 export var resource_texture : Texture
+export var product : PackedScene
 
-
+signal product_ready(prod)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -38,6 +44,8 @@ func _ready():
 		$VBoxContainer/ResourcePic.texture = resource_texture
 	State = States.READY
 
+	
+	
 
 func add_slot(side:String):
 
@@ -73,12 +81,22 @@ func add_slot(side:String):
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if Engine.is_editor_hint():
+		return
+		
 	if State == States.RESIZING:
 		rect_size = get_local_mouse_position()
 		if Input.is_action_pressed("resize_graphnode") == false:
 			State = States.READY
 	$VBoxContainer/StateLabel.text = States.keys()[State]
 
+
+# Warn users if the value hasn't been set.
+func _get_configuration_warning():
+	if get_child_count() < 2:
+		return "Add CommodityConverter nodes as children"
+	else:
+		return ""
 
 
 func _on_HustleGraphNode_resize_request(new_minsize):
@@ -94,3 +112,17 @@ func _on_HustleGraphNode_dragged(from, to):
 
 func _on_HustleGraphNode_offset_changed():
 	State = States.MOVING
+
+
+
+func _on_ProductionTimer_timeout():
+	#spawn_product()
+	pass
+
+func get_commodity_count(commodityName):
+	return buffer.count(commodityName)
+	
+func receive_commodity(commodityName):
+	if buffer.size() < buffer_size:
+		buffer.push_back(commodityName)
+
