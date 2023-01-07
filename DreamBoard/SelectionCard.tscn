@@ -5,8 +5,8 @@
 [ext_resource path="res://Fonts/SlackeyFont96.tres" type="DynamicFont" id=3]
 
 [node name="SelectorCard" type="VBoxContainer"]
-margin_right = 1024.0
-margin_bottom = 395.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 2 )
@@ -21,23 +21,25 @@ align = 1
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 margin_top = 18.0
 margin_right = 1024.0
-margin_bottom = 395.0
+margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
 [node name="LeftButton" type="Button" parent="HBoxContainer"]
-margin_right = 64.0
-margin_bottom = 377.0
-rect_min_size = Vector2( 64, 64 )
-size_flags_horizontal = 2
+margin_top = 220.0
+margin_right = 45.0
+margin_bottom = 361.0
+rect_min_size = Vector2( 32, 32 )
+size_flags_horizontal = 0
+size_flags_vertical = 4
 custom_fonts/font = ExtResource( 3 )
 text = "<"
 
 [node name="Image" type="TextureRect" parent="HBoxContainer"]
-margin_left = 342.0
-margin_right = 681.0
-margin_bottom = 377.0
+margin_left = 49.0
+margin_right = 975.0
+margin_bottom = 582.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource( 1 )
@@ -45,11 +47,13 @@ expand = true
 stretch_mode = 6
 
 [node name="RightButton" type="Button" parent="HBoxContainer"]
-margin_left = 960.0
+margin_left = 979.0
+margin_top = 220.0
 margin_right = 1024.0
-margin_bottom = 377.0
-rect_min_size = Vector2( 64, 64 )
-size_flags_horizontal = 10
+margin_bottom = 361.0
+rect_min_size = Vector2( 32, 32 )
+size_flags_horizontal = 8
+size_flags_vertical = 4
 custom_fonts/font = ExtResource( 3 )
 text = ">"
 

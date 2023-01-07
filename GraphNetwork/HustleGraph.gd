@@ -20,10 +20,14 @@ func _ready():
 	
 	update()
 	
-func spawnNode():
-	var newNode = hustle_graph_node.instance()
-	newNode.set_offset(Vector2(rand_range(0,1024), rand_range(0,600)))
-	add_child(newNode)
+func spawn_node(graphNode : GraphNode):
+	
+	add_child(graphNode)
+	graphNode.set_offset(scroll_offset + get_local_mouse_position())
+	graphNode.set_visible(true)
+	graphNode.activate()
+
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -38,10 +42,9 @@ func _on_HustleGraph_connection_request(from, from_slot, to, to_slot):
 func _on_HustleGraph_disconnection_request(from, from_slot, to, to_slot):
 	disconnect_node(from, from_slot, to, to_slot)
 
-func _on_resource_dropped(graphNode, _location):
+func _on_resource_dropped(graphNode : GraphNode):
 	if graphNode == null:
 		printerr("HustleGraph didn't get a graphNode")
-	var newGraphNode = graphNode.instance()
-	add_child(newGraphNode)
-	newGraphNode.set_offset(get_local_mouse_position())
+	else:
+		spawn_node(graphNode)
 	

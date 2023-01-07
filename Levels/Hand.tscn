@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://ResourceCards/ResourceCard.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Locations/supermarket01.png" type="Texture" id=2]
-[ext_resource path="res://Portraits/FFarmer02.png" type="Texture" id=3]
-[ext_resource path="res://Portraits/HoodyDude01.png" type="Texture" id=4]
+[ext_resource path="res://Portraits/glasses01.png" type="Texture" id=2]
+[ext_resource path="res://Objects/Bicycle.png" type="Texture" id=3]
+[ext_resource path="res://GraphNetwork/HustleGraphNode.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Fonts/SlackeyFont16.tres" type="DynamicFont" id=5]
 
 [node name="Hand" type="VBoxContainer"]
@@ -19,33 +19,29 @@ margin_bottom = 111.0
 alignment = 1
 
 [node name="ResourcesLabel" type="Label" parent="HBoxContainer"]
-margin_left = 329.0
+margin_left = 387.0
 margin_top = 44.0
-margin_right = 466.0
+margin_right = 524.0
 margin_bottom = 67.0
 custom_fonts/font = ExtResource( 5 )
 text = "My Resources"
 align = 1
 
-[node name="AuntDoris" parent="HBoxContainer" instance=ExtResource( 1 )]
-margin_left = 470.0
-margin_right = 532.0
-margin_bottom = 111.0
-resource_image = ExtResource( 3 )
-resource_name = "Doris"
-resource_category = 2
-
-[node name="Supermarket" parent="HBoxContainer" instance=ExtResource( 1 )]
-margin_left = 536.0
-margin_right = 617.0
+[node name="Coder" parent="HBoxContainer" instance=ExtResource( 1 )]
+margin_left = 528.0
+margin_right = 580.0
 margin_bottom = 111.0
 resource_image = ExtResource( 2 )
-resource_name = "Supermarket"
+resource_name = "coder"
+hustle_graph_node = ExtResource( 4 )
+description = "The coder can establish an automated connection between outputs and inputs, enabling much faster throughput."
 
-[node name="Andy" parent="HBoxContainer" instance=ExtResource( 1 )]
-margin_left = 621.0
-margin_right = 694.0
+[node name="Bicycle" parent="HBoxContainer" instance=ExtResource( 1 )]
+margin_left = 584.0
+margin_right = 636.0
 margin_bottom = 111.0
-resource_image = ExtResource( 4 )
-resource_name = "Andy"
-resource_category = 3
+resource_image = ExtResource( 3 )
+resource_name = "Bicycle"
+hustle_graph_node = ExtResource( 4 )
+description = "The Bicycle can increase the speed of a manual task-rabbit.
+"

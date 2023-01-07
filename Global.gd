@@ -6,6 +6,9 @@ var spawner
 var stage_manager
 var hustle_graph
 
+var bpm : float = 75.0
+var spb : float = 1.0/(bpm/60.0)
+
 var portrait_image_path : String
 var objective_image_path : String
 

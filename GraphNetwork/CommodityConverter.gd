@@ -1,5 +1,5 @@
 """
-Commodity Connectors are added to GraphNodes
+Commodity Convertors are added to GraphNodes
 They have rest timers and production timers
 They can serve as generators or receivers
 They can take or add resources from/to the HustleGraphNode buffer
@@ -9,15 +9,22 @@ They can take or add resources from/to the HustleGraphNode buffer
 extends Control
 
 enum States { READY, RESTING, DISABLED }
-var State = States.READY
+var State = States.DISABLED
 
 var graph_node
 
-enum ConnectorTypes { GENERATOR, RECEIVER }
-export (ConnectorTypes) var Type = ConnectorTypes.RECEIVER
+
 
 export var product : PackedScene
 var product_name : String
+
+# produce on 3, 3.5, 4
+export var rest_beats : float = 2.5
+export var production_beats : float = 0.5
+export var burst_size : int = 3
+
+var rest_interval : float = Global.spb * rest_beats
+var unit_production_time : float = Global.spb * production_beats
 
 
 signal product_ready(prod)
@@ -33,12 +40,17 @@ func _ready():
 		printerr("CommodityConnector.gd error connecting signal in ready()")
 
 	graph_node = get_parent()
-	find_node("ProductionTimer").start()
-	
-	if Type != ConnectorTypes.GENERATOR:
-		$VBox/HBoxContainer/ProductionProgress.hide()
-
 	product_name = get_product_name()
+
+	$VBox/ProductionTimer.set_wait_time(unit_production_time)
+	$VBox/RestTimer.set_wait_time(rest_interval)
+
+
+func activate():
+	$VBox/ProductionTimer.start()
+	State = States.READY
+	
+	
 	
 func get_product_name():
 	var referenceProduct = product.instance()
@@ -48,13 +60,13 @@ func get_product_name():
 	return myName
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	if Type == ConnectorTypes.GENERATOR:
-		if $VBox/ProductionTimer.is_stopped() == false:
-			var percent_complete = $VBox/ProductionTimer.time_left / $VBox/ProductionTimer.wait_time
-			$VBox/HBoxContainer/ProductionProgress.value = percent_complete
-	elif Type == ConnectorTypes.RECEIVER and graph_node != null:
-		$VBox/HBoxContainer/BufferValue.text = str(graph_node.get_commodity_count(product_name))
+func _process(_delta):
+	if State != States.READY:
+		return
+
+	if $VBox/ProductionTimer.is_stopped() == false:
+		var percent_complete = $VBox/ProductionTimer.time_left / $VBox/ProductionTimer.wait_time
+		$VBox/HBoxContainer/ProductionProgress.value = percent_complete
 
 
 func spawn_product():
@@ -82,12 +94,11 @@ func deduct_requirements():
 	pass
 
 func _on_ProductionTimer_timeout():
-	if Type == ConnectorTypes.GENERATOR:
-		if requirements_met():
-			deduct_requirements()
-			
-			spawn_product()
-		find_node("RestTimer").start()
+	if requirements_met():
+		deduct_requirements()
+		
+		spawn_product()
+	find_node("RestTimer").start()
 	
 
 

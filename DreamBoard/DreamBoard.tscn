@@ -71,8 +71,7 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id=2]
 resource_name = "RevealDream"
-length = 5.0
-step = 1.0
+length = 2.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("VBoxContainer/Body/HBoxContainer/CouchTex:visible")
 tracks/0/interp = 1
@@ -80,7 +79,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
+"times": PoolRealArray( 0, 0.4 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
@@ -92,7 +91,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 2 ),
+"times": PoolRealArray( 0, 0.8 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
@@ -104,7 +103,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 3 ),
+"times": PoolRealArray( 0, 1.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
@@ -116,7 +115,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 4 ),
+"times": PoolRealArray( 0, 1.7 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
@@ -128,7 +127,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 5 ),
+"times": PoolRealArray( 0, 1.9 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
@@ -194,8 +193,8 @@ size_flags_vertical = 3
 
 [node name="CouchTex" type="TextureRect" parent="VBoxContainer/Body/HBoxContainer"]
 visible = false
-margin_right = 476.0
-margin_bottom = 395.0
+margin_right = 117.0
+margin_bottom = 365.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource( 2 )
@@ -204,18 +203,18 @@ stretch_mode = 6
 
 [node name="Plus" type="Label" parent="VBoxContainer/Body/HBoxContainer"]
 visible = false
-margin_left = 425.0
-margin_top = 130.0
-margin_right = 476.0
-margin_bottom = 265.0
+margin_left = 121.0
+margin_top = 115.0
+margin_right = 172.0
+margin_bottom = 250.0
 custom_fonts/font = ExtResource( 3 )
 text = "+"
 
 [node name="QuestionTex" type="TextureRect" parent="VBoxContainer/Body/HBoxContainer"]
 visible = false
-margin_left = 267.0
-margin_right = 476.0
-margin_bottom = 395.0
+margin_left = 176.0
+margin_right = 293.0
+margin_bottom = 365.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource( 5 )
@@ -224,10 +223,10 @@ stretch_mode = 6
 
 [node name="NextButton2" type="Button" parent="VBoxContainer/Body"]
 visible = false
-margin_left = 960.0
-margin_top = 127.0
-margin_right = 1024.0
-margin_bottom = 268.0
+margin_left = 662.0
+margin_top = 112.0
+margin_right = 726.0
+margin_bottom = 253.0
 rect_min_size = Vector2( 64, 64 )
 size_flags_horizontal = 0
 size_flags_vertical = 6
@@ -237,6 +236,7 @@ text = "="
 [node name="ObjectiveCard" parent="VBoxContainer/Body" instance=ExtResource( 1 )]
 visible = false
 margin_left = 730.0
+margin_bottom = 365.0
 images_location = "res://DreamBoard/Objectives/"
 title = "Choose Objective"
 

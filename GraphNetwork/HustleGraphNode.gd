@@ -19,6 +19,7 @@ Nodes can represent:
 	- customers
 	
 """
+tool
 
 extends GraphNode
 
@@ -32,7 +33,7 @@ var buffer_size = 10
 var buffer = [] # push and pop product commodity names as required
 
 
-export var resource_texture : Texture
+export var resource_texture : Texture setget set_resource_texture
 export var product : PackedScene
 
 signal product_ready(prod)
@@ -42,9 +43,17 @@ func _ready():
 	set_resizable(true)
 	if resource_texture != null:
 		$VBoxContainer/ResourcePic.texture = resource_texture
+	State = States.DISABLED
+
+func activate():
 	State = States.READY
 
+func set_resource_texture(newTexture : Texture):
+	resource_texture = newTexture
+	$VBoxContainer/ResourcePic.texture = newTexture
 	
+func add_output(converterScene):
+	pass
 	
 
 func add_slot(side:String):
@@ -80,7 +89,7 @@ func add_slot(side:String):
 
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if Engine.is_editor_hint():
 		return
 		
@@ -88,24 +97,26 @@ func _process(delta):
 		rect_size = get_local_mouse_position()
 		if Input.is_action_pressed("resize_graphnode") == false:
 			State = States.READY
+	
+	# temporary for debugging
 	$VBoxContainer/StateLabel.text = States.keys()[State]
 
 
 # Warn users if the value hasn't been set.
 func _get_configuration_warning():
-	if get_child_count() < 2:
+	if get_child_count() <= 2:
 		return "Add CommodityConverter nodes as children"
 	else:
 		return ""
 
 
-func _on_HustleGraphNode_resize_request(new_minsize):
+func _on_HustleGraphNode_resize_request(_new_minsize):
 	State = States.RESIZING
 	
 	
 
 
-func _on_HustleGraphNode_dragged(from, to):
+func _on_HustleGraphNode_dragged(_from, _to):
 	State = States.READY
 
 

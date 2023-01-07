@@ -15,14 +15,22 @@ text = "Customer"
 [node name="ResourceImage" parent="." index="1"]
 texture = ExtResource( 2 )
 
-[node name="ResourceNameLabel" parent="." index="3"]
+[node name="ResourceNameLabel" parent="." index="2"]
 text = "Aunt Doris"
 
-[node name="CommodityConverter" parent="." index="6" instance=ExtResource( 3 )]
-visible = false
+[node name="HustleGraphNode" parent="." index="4"]
+margin_bottom = 393.0
+slot/2/left_enabled = false
+slot/2/left_type = 0
+slot/2/left_color = Color( 1, 1, 1, 1 )
+slot/2/right_enabled = false
+slot/2/right_type = 0
+slot/2/right_color = Color( 1, 1, 1, 1 )
+
+[node name="CommodityConverter" parent="HustleGraphNode" index="2" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 115.0
-margin_right = 230.0
-margin_bottom = 195.0
-Type = 0
+margin_left = 16.0
+margin_top = 224.0
+margin_right = 216.0
+margin_bottom = 254.0

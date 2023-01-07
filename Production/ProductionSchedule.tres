@@ -1,0 +1,12 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Production/ProductionSchedule.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+rest_beats = 2.5
+production_beats = 0.5
+burst_size = 3
+requirements = {
+"cash": 5
+}
