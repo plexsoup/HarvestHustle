@@ -32,7 +32,7 @@ var State = States.READY
 var buffer_size = 10
 var buffer = [] # push and pop product commodity names as required
 
-var current_slot = 1
+#var current_slot = 1
 
 export var resource_texture : Texture setget set_resource_texture
 export var product : PackedScene
@@ -60,57 +60,49 @@ func set_resource_texture(newTexture : Texture):
 #		if slotNode.name != "TopDisplay":
 #			add_slot(slotNode, "left")
 
+
 func add_outputs(newOutputs : Array):
-	return
-	
-	var outputNodes = [ $Output1, $Output2, $Output3 ]
-	for i in range(newOutputs.size()):
-		outputNodes[i].add_child(newOutputs[i].duplicate())
-	
-	
+	add_slots(newOutputs, "output")
 
 func add_inputs(newInputs : Array):
-	return
-	
-	var inputNodes = [ $Input1, $Input2, $Input3 ]
-	for i in range(newInputs.size()):
-		inputNodes[i].add_child(newInputs[i].duplicate())
+	add_slots(newInputs, "input")
 
-	
+func add_slots(newSlots : Array, portType : String):
+	for i in range(newSlots.size()):
+		var newSlotNode = newSlots[i].duplicate()
+		add_slot(newSlotNode, portType)
 
 
 func add_slot(newNode, side:String):
-	var currentChild = get_child(current_slot)
-	currentChild.add_child(newNode)
-	current_slot += 1
+	add_child(newNode)
+	#current_slot += 1
 	
-#	var enable_left : bool = side == "left"
-#	var enable_right : bool = side == "right"
-#	var type_left = 0
-#	var type_right = 0
-#	var color_left = Color.green
-#	var color_right = Color.green
-#	var custom_left = null
-#	var custom_right = null
+	var enable_left : bool = side == "input"
+	var enable_right : bool = side == "output"
+	var type_left = 0
+	var type_right = 0
+	var color_left = Color.green
+	var color_right = Color.green
+	var custom_left = null
+	var custom_right = null
 #	var small_icon = make_small_icon(newNode.product_icon)
-##	if enable_left and small_icon != null:
-##		custom_left = small_icon # texture for input connector
-##	elif enable_right and small_icon != null:
-##		custom_right = small_icon # texture for output connector
-#
-#	var slotID = newNode.get_position_in_parent()
-#	print("setting slot now at " + str(slotID))
-#	set_slot(
-#			slotID,
-#			enable_left, 
-#			type_left, 
-#			color_left, 
-#			enable_right, 
-#			type_right, 
-#			color_right, 
-#			custom_left, 
-#			custom_right
-#	)
+#	if enable_left and small_icon != null:
+#		custom_left = small_icon # texture for input connector
+#	elif enable_right and small_icon != null:
+#		custom_right = small_icon # texture for output connector
+
+	var slotID = newNode.get_position_in_parent()
+	set_slot(
+			slotID,
+			enable_left, 
+			type_left, 
+			color_left, 
+			enable_right, 
+			type_right, 
+			color_right, 
+			custom_left, 
+			custom_right
+	)
 
 	
 func make_small_icon(bigIcon):

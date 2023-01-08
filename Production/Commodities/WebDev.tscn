@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Production/Accelerators/wwwDev.png" type="Texture" id=1]
+[ext_resource path="res://Production/Commodities/Product.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Production/Accelerators/wwwDevIcon.png" type="Texture" id=3]
+
+[node name="WebDev" instance=ExtResource( 2 )]
+product_name = "Web Development"
+product_icon = ExtResource( 3 )
+product_graphic = ExtResource( 1 )
+product_type = 7
