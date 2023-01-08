@@ -19,7 +19,7 @@ Nodes can represent:
 	- customers
 	
 """
-tool
+#tool
 
 extends GraphNode
 
@@ -32,7 +32,6 @@ var State = States.READY
 var buffer_size = 10
 var buffer = [] # push and pop product commodity names as required
 
-#var current_slot = 1
 
 export var resource_texture : Texture setget set_resource_texture
 var product : MarginContainer
@@ -49,6 +48,11 @@ var produced_this_burst : int = 0
 var tone : AudioStream setget set_tone
 
 
+var short_desc setget set_short_desc
+var long_desc setget set_long_desc
+
+var prev_rect_size # for hiding the portrait picture
+
 signal product_ready(prod)
 
 # Called when the node enters the scene tree for the first time.
@@ -58,6 +62,7 @@ func _ready():
 	set_resizable(true)
 	if resource_texture != null:
 		$VBoxContainer/ResourcePic.texture = resource_texture
+		$TopDisplay/InfoVBox/PopupInfoDialog/PopupHbox/ResourcePic2.texture = resource_texture
 	State = States.DISABLED
 
 # The graph doesn't care about our product signals
@@ -70,22 +75,31 @@ func activate():
 	State = States.READY
 
 
+func set_short_desc(newShortDesc):
+	short_desc = newShortDesc
+	$TopDisplay/InfoVBox/HBoxContainer/ShortDescLabel.text = newShortDesc
 
+
+func set_long_desc(newLongDesc : String):
+	if newLongDesc != null:
+		long_desc = newLongDesc
+		find_node("LongDescLabel").text = newLongDesc
 
 func set_production_delay(newDelay):
-	$TopDisplay/ProductionTimer.set_wait_time(newDelay)
+	$TopDisplay/InfoVBox/ProductionTimer.set_wait_time(newDelay)
 
 func set_rest_delay(newDelay):
-	$TopDisplay/RestTimer.set_wait_time(newDelay)
+	$TopDisplay/InfoVBox/RestTimer.set_wait_time(newDelay)
 
 func set_tone(newTone):
-	$TopDisplay/AudioStreamPlayer2D.stream = newTone
+	$TopDisplay/InfoVBox/AudioStreamPlayer2D.stream = newTone
 	tone = newTone
 
 
 func set_resource_texture(newTexture : Texture):
 	resource_texture = newTexture
-	$TopDisplay/ResourcePic.texture = newTexture
+	$TopDisplay/InfoVBox/ResourcePic.texture = newTexture
+	$TopDisplay/InfoVBox/PopupInfoDialog/PopupHbox/ResourcePic2.texture = newTexture
 	
 #func setup_slots():
 #	for slotNode in get_children():
@@ -98,6 +112,18 @@ func add_outputs(newOutputs : Array):
 
 func add_inputs(newInputs : Array):
 	add_slots(newInputs, "input")
+	add_dummy_spacer()
+	
+func add_dummy_spacer():
+	var spacer = MarginContainer.new()
+	spacer.rect_min_size = Vector2(5, 10)
+	spacer.rect_size = spacer.rect_min_size
+	add_child(spacer)
+#	var colorRec = ColorRect.new()
+#	colorRec.color = Color.burlywood
+#	colorRec.rect_min_size = Vector2(30, 50)
+#	spacer.add_child(colorRec)
+
 
 func add_slots(newSlots : Array, portType : String):
 	for i in range(newSlots.size()):
@@ -106,14 +132,15 @@ func add_slots(newSlots : Array, portType : String):
 
 
 func add_slot(newNode, side:String):
+	# the newNode to add should inherit from Product.tscn
 	if side == "input":
 		requirements.append(newNode.name)
 	else:
 		outputs.append(newNode.name)
 
-
-	add_child(newNode)
-	#current_slot += 1
+	add_child(newNode) # Important
+	
+	
 	
 	var enable_left : bool = side == "input"
 	var enable_right : bool = side == "output"
@@ -168,8 +195,8 @@ func _process(_delta):
 		if Input.is_action_pressed("resize_graphnode") == false:
 			State = States.READY
 	
-	var prodTimer = $TopDisplay/ProductionTimer
-	var prodClock = $TopDisplay/ProductionProgressClock
+	var prodTimer = $TopDisplay/InfoVBox/ProductionTimer
+	var prodClock = $TopDisplay/InfoVBox/HBoxContainer/ProductionProgressClock
 	if not prodTimer.is_stopped():
 		prodClock.value = prodTimer.time_left / prodTimer.get_wait_time()
 
@@ -200,15 +227,15 @@ func _on_HustleGraphNode_offset_changed():
 
 func spawn_product():
 	emit_signal("product_ready", product)
-	$TopDisplay/ProductionTimer.stop()
+	$TopDisplay/InfoVBox/ProductionTimer.stop()
 	produced_this_burst += 1
 	if produced_this_burst >= burst_size:
-		$TopDisplay/RestTimer.start()
+		$TopDisplay/InfoVBox/RestTimer.start()
 		produced_this_burst = 0
 	else:
-		$TopDisplay/ProductionTimer.start()
+		$TopDisplay/InfoVBox/ProductionTimer.start()
 	
-	$TopDisplay/AudioStreamPlayer2D.play()
+	$TopDisplay/InfoVBox/AudioStreamPlayer2D.play()
 		
 
 func requirements_met():
@@ -238,7 +265,44 @@ func _on_commodity_received(commodityName):
 
 
 func _on_RestTimer_timeout():
-	$TopDisplay/ProductionTimer.start()
-	$TopDisplay/RestTimer.stop()
+	$TopDisplay/InfoVBox/ProductionTimer.start()
+	$TopDisplay/InfoVBox/RestTimer.stop()
 
 
+#func _on_InfoButton_toggled(button_pressed):
+#	find_node("PopupInfoDialog").popup()
+#
+#
+#func _on_PopupInfoDialog_popup_hide():
+#	$TopDisplay/InfoVBox/Position2D/InfoButton.pressed = false
+#
+
+
+func _on_InfoButton_pressed():
+	var popupDialog = find_node("PopupInfoDialog")
+	popupDialog.window_title = title + " " + short_desc
+	popupDialog.find_node("LongDescLabel").text = long_desc
+	popupDialog.popup()
+
+
+func _on_HustleGraphNode_close_request():
+	# confirm, then remove connections
+	# send the card back to your hand?
+	
+	# or, just roll it up a little?
+	var boxToToggle = $TopDisplay/InfoVBox
+	if boxToToggle.visible == true:
+		prev_rect_size = rect_size
+
+	boxToToggle.visible = !boxToToggle.visible
+	
+	if boxToToggle.visible == false:
+		rect_size = rect_min_size
+		resizable = false
+	else:
+		rect_size = prev_rect_size
+		resizable = true
+	
+	
+	
+	pass # Replace with function body.

@@ -3,7 +3,7 @@ extends VBoxContainer
 
 export var resource_image : Texture setget set_image
 export var resource_name : String setget set_name
-export (String, MULTILINE) var description : String
+#export (String, MULTILINE) var description : String
 
 #var production_schedule = load("res://Production/ProductionSchedule.tres").duplicate()
 
@@ -11,6 +11,8 @@ enum Categories { SUPPLIER, PRODUCTION, CUSTOMER, ACCELERATOR, LIMITER, SHIPPING
 export (Categories) var resource_category = Categories.SUPPLIER setget set_category
 
 export var price = 100
+export var short_desc = ""
+export (String, MULTILINE) var long_desc = ""
 
 export var production_beats : float = 0.5
 export var burst_size : int = 3
@@ -73,11 +75,13 @@ func setup_graph_node():
 	graphNode.resource_texture = resource_image
 	graphNode.title = resource_name
 
+
+	var outputNodes = $Processing/Outputs.get_children()
+	graphNode.add_outputs(outputNodes)
+
 	var inputNodes = $Processing/Inputs.get_children()
 	graphNode.add_inputs(inputNodes)
 	
-	var outputNodes = $Processing/Outputs.get_children()
-	graphNode.add_outputs(outputNodes)
 
 
 	graphNode.product_name = outputNodes[0].product_name
@@ -87,7 +91,8 @@ func setup_graph_node():
 	graphNode.tone = tone
 	graphNode.burst_size = burst_size
 	
-
+	graphNode.short_desc = short_desc
+	graphNode.long_desc = long_desc
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

@@ -10,6 +10,8 @@ resource_image = ExtResource( 2 )
 resource_name = "Aunt Doris"
 resource_category = 2
 price = 0
+short_desc = "cash for eggs"
+long_desc = "She may be your favorite person in this whole world."
 
 [node name="ResourceCategoryLabel" parent="." index="0"]
 text = "Customer"

@@ -8,9 +8,10 @@
 [node name="Friend" instance=ExtResource( 1 )]
 resource_image = ExtResource( 2 )
 resource_name = "Andy"
-description = "Andy is a friend of yours. He lifts heavy, which comes in handy sometimes. Great at carrying stuff."
 resource_category = 5
 price = 10
+short_desc = "free labour!"
+long_desc = "Andy is a good friend. The kind of friend that always helps you move."
 
 [node name="ResourceCategoryLabel" parent="." index="0"]
 text = "Shipping"
