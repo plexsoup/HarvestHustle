@@ -7,6 +7,3 @@
 product_name = "Cash"
 product_icon = ExtResource( 2 )
 product_graphic = ExtResource( 2 )
-
-[node name="Sprite" parent="Appearance" index="0"]
-texture = ExtResource( 2 )
