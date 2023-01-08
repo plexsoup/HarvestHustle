@@ -35,21 +35,53 @@ var buffer = [] # push and pop product commodity names as required
 #var current_slot = 1
 
 export var resource_texture : Texture setget set_resource_texture
-export var product : PackedScene
+var product : MarginContainer
+var product_name : String
+
+var requirements = [] # list of Commodity names required to produce product
+var outputs = [] # list of Commodity names produced by this node
+
+var production_delay setget set_production_delay
+var rest_delay setget set_rest_delay
+var burst_size : int
+var produced_this_burst : int = 0
+
+var tone : AudioStream setget set_tone
+
 
 signal product_ready(prod)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+
 	set_resizable(true)
 	if resource_texture != null:
 		$VBoxContainer/ResourcePic.texture = resource_texture
 	State = States.DISABLED
 
+# The graph doesn't care about our product signals
+#	var err=connect("product_ready", Global.hustle_graph, "spawn_product")
+#	if err != OK:
+#		print("Error connecting to hustle_graph: ", err)
+
+
 func activate():
 	State = States.READY
-	
-	
+
+
+
+
+func set_production_delay(newDelay):
+	$TopDisplay/ProductionTimer.set_wait_time(newDelay)
+
+func set_rest_delay(newDelay):
+	$TopDisplay/RestTimer.set_wait_time(newDelay)
+
+func set_tone(newTone):
+	$TopDisplay/AudioStreamPlayer2D.stream = newTone
+	tone = newTone
+
 
 func set_resource_texture(newTexture : Texture):
 	resource_texture = newTexture
@@ -74,6 +106,12 @@ func add_slots(newSlots : Array, portType : String):
 
 
 func add_slot(newNode, side:String):
+	if side == "input":
+		requirements.append(newNode.name)
+	else:
+		outputs.append(newNode.name)
+
+
 	add_child(newNode)
 	#current_slot += 1
 	
@@ -130,7 +168,10 @@ func _process(_delta):
 		if Input.is_action_pressed("resize_graphnode") == false:
 			State = States.READY
 	
-
+	var prodTimer = $TopDisplay/ProductionTimer
+	var prodClock = $TopDisplay/ProductionProgressClock
+	if not prodTimer.is_stopped():
+		prodClock.value = prodTimer.time_left / prodTimer.get_wait_time()
 
 
 # Warn users if the value hasn't been set.
@@ -157,15 +198,47 @@ func _on_HustleGraphNode_offset_changed():
 	State = States.MOVING
 
 
+func spawn_product():
+	emit_signal("product_ready", product)
+	$TopDisplay/ProductionTimer.stop()
+	produced_this_burst += 1
+	if produced_this_burst >= burst_size:
+		$TopDisplay/RestTimer.start()
+		produced_this_burst = 0
+	else:
+		$TopDisplay/ProductionTimer.start()
+	
+	$TopDisplay/AudioStreamPlayer2D.play()
+		
+
+func requirements_met():
+	if requirements.size() == 0:
+		# if the output is for "cash": deduct money from Global.player.cash
+		if product_name == "cash":
+			Global.player.cash -= 1
+
+		return true
+
+	for requirement in requirements:
+		if get_commodity_count(requirement) < requirements.count(requirement):
+			return false
+	return true
 
 func _on_ProductionTimer_timeout():
-	#spawn_product()
-	pass
-
+	if requirements_met():
+		spawn_product()
+	
 func get_commodity_count(commodityName):
 	return buffer.count(commodityName)
 	
-func receive_commodity(commodityName):
+func _on_commodity_received(commodityName):
 	if buffer.size() < buffer_size:
 		buffer.push_back(commodityName)
+
+
+
+func _on_RestTimer_timeout():
+	$TopDisplay/ProductionTimer.start()
+	$TopDisplay/RestTimer.stop()
+
 

@@ -1,14 +1,16 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://ResourceCards/ResourceCard.gd" type="Script" id=2]
 [ext_resource path="res://GraphNetwork/HustleGraphNode.tscn" type="PackedScene" id=3]
+[ext_resource path="res://sfx/A440-C4-69-pluck.wav" type="AudioStream" id=4]
 
 [node name="ResourceCard" type="VBoxContainer"]
 margin_right = 170.0
 margin_bottom = 75.0
 script = ExtResource( 2 )
 resource_image = ExtResource( 1 )
+tone = ExtResource( 4 )
 
 [node name="ResourceCategoryLabel" type="Label" parent="."]
 margin_right = 170.0

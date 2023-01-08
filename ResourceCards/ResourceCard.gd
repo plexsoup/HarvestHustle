@@ -12,6 +12,15 @@ export (Categories) var resource_category = Categories.SUPPLIER setget set_categ
 
 export var price = 100
 
+export var production_beats : float = 0.5
+export var burst_size : int = 3
+export var rest_beats : float = 2.5
+
+export var tone : AudioStream
+
+var production_delay = Global.spb * production_beats
+var rest_delay = Global.spb * rest_beats
+
 
 enum States { FORSALE, READY, DRAGGING, DROPPED }
 var State = States.READY
@@ -69,6 +78,15 @@ func setup_graph_node():
 	
 	var outputNodes = $Processing/Outputs.get_children()
 	graphNode.add_outputs(outputNodes)
+
+
+	graphNode.product_name = outputNodes[0].product_name
+	graphNode.product = outputNodes[0].duplicate()
+	graphNode.production_delay = production_delay
+	graphNode.rest_delay = rest_delay
+	graphNode.tone = tone
+	graphNode.burst_size = burst_size
+	
 
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.

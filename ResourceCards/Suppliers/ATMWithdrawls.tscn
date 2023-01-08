@@ -12,6 +12,7 @@ resource_name = "ATM Withdrawals"
 description = "Your friendly ATM, always ready to tap that bank balance.
 "
 price = 0
+rest_beats = 7.5
 
 [node name="ResourceImage" parent="." index="1"]
 texture = ExtResource( 1 )

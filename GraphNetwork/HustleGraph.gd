@@ -31,13 +31,19 @@ func spawn_node(graphNode : GraphNode):
 	graphNode.activate()
 
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func spawn_product(product : MarginContainer, location):
+	pass
+	# let the nodes signal each other for gods sake
 
 
 func _on_HustleGraph_connection_request(from, from_slot, to, to_slot):
+	print("From: " + from + ", " + str(from_slot))
+	print("To: " + to + ", " + str(to_slot))
+	
+	var fromGraphNode = get_node(from)
+	var toGraphNode = get_node(to)
+	fromGraphNode.connect("product_ready", toGraphNode, "_on_commodity_received")
+	
 	
 	var err = connect_node(from, from_slot, to, to_slot)
 	if err != OK:
@@ -51,4 +57,13 @@ func _on_resource_dropped(graphNode : GraphNode):
 		printerr("HustleGraph didn't get a graphNode")
 	else:
 		spawn_node(graphNode)
+	
+func _on_product_spawned(graphNode, product : MarginContainer):
+	spawn_product(product, scroll_offset + get_local_mouse_position())
+
+	# send a signal to the graphNode to tell it a new product has been spawned
+	# teleport it directly there (for now)
+	var destination = get_connection_list()[0].to_port
+	var destination_position = destination.get_global_position()
+	product.global_position = destination_position
 	
