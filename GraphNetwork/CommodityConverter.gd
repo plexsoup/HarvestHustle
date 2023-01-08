@@ -16,7 +16,8 @@ var graph_node
 
 
 export var product : PackedScene
-var product_name : String
+export var product_name : String
+export var conversion_desc : String
 
 # produce on 3, 3.5, 4
 export var rest_beats : float = 2.5
@@ -25,6 +26,13 @@ export var burst_size : int = 3
 
 var rest_interval : float = Global.spb * rest_beats
 var unit_production_time : float = Global.spb * production_beats
+
+export var requirements1 : PackedScene
+export var requirements2 : PackedScene
+export var requirements3 : PackedScene
+var requirements = [requirements1, requirements2, requirements3]
+export var num_required = [1, 0, 0]
+
 
 
 signal product_ready(prod)
@@ -40,7 +48,8 @@ func _ready():
 		printerr("CommodityConnector.gd error connecting signal in ready()")
 
 	graph_node = get_parent()
-	product_name = get_product_name()
+	
+	$VBox/HBoxContainer/ConversionDesc.text = conversion_desc
 
 	$VBox/ProductionTimer.set_wait_time(unit_production_time)
 	$VBox/RestTimer.set_wait_time(rest_interval)

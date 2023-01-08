@@ -18,6 +18,8 @@ func _ready():
 	add_valid_connection_type(0,0)
 	Global.hustle_graph = self
 	
+	$Panel.popup_centered()
+	
 	update()
 	
 func spawn_node(graphNode : GraphNode):
@@ -36,8 +38,9 @@ func spawn_node(graphNode : GraphNode):
 
 func _on_HustleGraph_connection_request(from, from_slot, to, to_slot):
 	
-	connect_node(from, from_slot, to, to_slot)
-
+	var err = connect_node(from, from_slot, to, to_slot)
+	if err != OK:
+		printerr(self.name + " HustleGraph.gd, error connecting signal " + str(err))
 
 func _on_HustleGraph_disconnection_request(from, from_slot, to, to_slot):
 	disconnect_node(from, from_slot, to, to_slot)

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://GraphNetwork/CommodityConverter.gd" type="Script" id=1]
 [ext_resource path="res://Textures/clockFill.png" type="Texture" id=2]
 [ext_resource path="res://Textures/clockBack.png" type="Texture" id=3]
 [ext_resource path="res://Textures/clockOver.png" type="Texture" id=4]
+[ext_resource path="res://Production/Commodities/CommoditiesCash.tscn" type="PackedScene" id=5]
 
 [node name="CommodityConverter" type="MarginContainer"]
 anchor_right = 1.0
@@ -12,6 +13,7 @@ rect_min_size = Vector2( 0, 25 )
 size_flags_horizontal = 3
 size_flags_vertical = 0
 script = ExtResource( 1 )
+requirements1 = ExtResource( 5 )
 
 [node name="VBox" type="VBoxContainer" parent="."]
 margin_right = 1024.0
@@ -39,13 +41,15 @@ size_flags_horizontal = 10
 size_flags_vertical = 2
 text = "3"
 
-[node name="CommodityName" type="Label" parent="VBox/HBoxContainer"]
-margin_left = 499.0
-margin_right = 995.0
-margin_bottom = 14.0
-size_flags_horizontal = 3
-size_flags_vertical = 2
+[node name="ConversionDesc" type="Label" parent="VBox/HBoxContainer"]
+margin_left = 691.0
+margin_top = 293.0
+margin_right = 803.0
+margin_bottom = 307.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
 text = "CommodityName"
+valign = 1
 
 [node name="ProductionProgress" type="TextureProgress" parent="VBox/HBoxContainer"]
 margin_left = 999.0

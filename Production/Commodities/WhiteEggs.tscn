@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Objects/whiteEggs.png" type="Texture" id=1]
+[ext_resource path="res://Production/Commodities/Product.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Objects/eggSprite.png" type="Texture" id=3]
+
+[node name="WhiteEggs" instance=ExtResource( 2 )]
+product_name = "Eggs"
+product_icon = ExtResource( 3 )
+product_graphic = ExtResource( 1 )
+product_type = 1
+
+[node name="Sprite" parent="Appearance" index="0"]
+texture = ExtResource( 1 )
+
+[node name="TextureRect" parent="Appearance" index="1"]
+visible = true
+texture = ExtResource( 1 )

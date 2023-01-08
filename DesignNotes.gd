@@ -76,6 +76,23 @@ Make the purchasing screens kind of like Mule's market.
 - take care not to make it a walking simulator though?
 
 
+Brainstorming Ideas:
+	
+	Social Media + Time = Online Following
+	Online Following + Product = Sales
+	Product + Shipping Service = Drop Shipping
+	Social Media + Ad Spend = Marketing
+	Marketing + Sales Funnel = Conversion
+	Website + Search Engine Optimization = Organic Traffic
+	Email List + Email Marketing = Sales
+	Product + Affiliate Marketing = Passive Income
+	Time + Knowledge = Expertise
+	Expertise + Freelancing Platform = Consulting Services
+
+If an input requires "time", "effort", or "attention",
+you can slot an accelerator in a socket to fulfil that need.
+
+
 """
 
 extends Node

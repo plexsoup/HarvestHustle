@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/RootVegetable.png-f07e390eb716bfcd6e14a2739b31cd5b.stex"
+path="res://.import/craftSuppliesLarge2.png-88992be9fca33c0aed4aa1edd8807f84.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Objects/RootVegetable.png"
-dest_files=[ "res://.import/RootVegetable.png-f07e390eb716bfcd6e14a2739b31cd5b.stex" ]
+source_file="res://Objects/craftSuppliesLarge2.png"
+dest_files=[ "res://.import/craftSuppliesLarge2.png-88992be9fca33c0aed4aa1edd8807f84.stex" ]
 
 [params]
 

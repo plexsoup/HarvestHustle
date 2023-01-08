@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://ResourceCards/ResourceCard.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Portraits/MHeavy01.png" type="Texture" id=2]
+
+[node name="Friend" instance=ExtResource( 1 )]
+resource_image = ExtResource( 2 )
+resource_name = "Andy"
+description = "Andy is a friend of yours. He lifts heavy, which comes in handy sometimes. Great at carrying stuff."
+resource_category = 5
+price = 10
+
+[node name="ResourceCategoryLabel" parent="." index="0"]
+text = "Shipping"
+
+[node name="ResourceImage" parent="." index="1"]
+texture = ExtResource( 2 )
+
+[node name="ResourceNameLabel" parent="." index="2"]
+text = "Andy"

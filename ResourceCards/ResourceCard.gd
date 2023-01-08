@@ -20,6 +20,13 @@ var owned = false
 
 #signal resource_dropped(resource, location)
 
+func _get_configuration_warning():
+	if $Processing/Inputs.get_child_count() < 1 or $Processing/Outputs.get_child_count() < 1:
+		return "Add product nodes as children of Inputs and Outputs"
+	else:
+		return ""
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if Engine.is_editor_hint():
@@ -53,9 +60,22 @@ func delayed_ready(timeToWait):
 		$ResourceImage.show()
 
 func setup_graph_node():
-	$HustleGraphNode.resource_texture = resource_image
+	var graphNode = $HustleGraphNode
+	graphNode.resource_texture = resource_image
+	graphNode.title = resource_name
 
+	var inputNodes = $Processing/Inputs.get_children()
+	for inputNode in inputNodes:
+		var newNode = inputNode.duplicate()
+		graphNode.add_child(newNode)
+		graphNode.add_slot(newNode, "left")
+	var outputNodes = $Processing/Outputs.get_children()
+	for outputNode in outputNodes:
+		var newNode = outputNode.duplicate()
+		graphNode.add_child(newNode)
+		graphNode.add_slot(newNode, "right")
 
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	if Engine.is_editor_hint():
@@ -70,7 +90,7 @@ func set_name(myName):
 func set_image(myImage):
 	resource_image = myImage
 	
-	if is_instance_valid($ResourceImage):
+	if find_node("ResourceImage"):
 		$ResourceImage.texture = myImage
 
 func set_category(myCategory):
@@ -84,11 +104,11 @@ func spawn_sprite():
 	newSprite.scale = Vector2.ONE * 0.1
 	newSprite.set_graph_node($HustleGraphNode)
 
-	Global.hustle_graph.add_child(newSprite)
-
 	# hot potato with this HustleGraphNode
 	remove_child($HustleGraphNode)
+	Global.hustle_graph.add_child(newSprite)
 
+	
 
 
 func _on_ResourceCard_gui_input(event):

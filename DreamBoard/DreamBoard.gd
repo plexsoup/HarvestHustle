@@ -11,13 +11,13 @@ func _ready():
 	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func reroll_selectors():
+	$VBoxContainer/Body/Character.reroll()
+	$VBoxContainer/Body/HBoxContainer/AptitudeCard.reroll()
+	$VBoxContainer/Body/ObjectiveCard.reroll()
+	
 
 
-func _on_NextButton_pressed():
-	$AnimationPlayer.play("RevealDream")
 
 
 
@@ -28,3 +28,7 @@ func _on_StartGameButton_pressed():
 	Global.stage_manager.switch_scene("Game")
 
 	
+
+
+func _on_RerollButton_pressed():
+	reroll_selectors()

@@ -24,6 +24,7 @@ margin_right = 1024.0
 margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_constants/separation = -10
 alignment = 1
 
 [node name="LeftButton" type="Button" parent="HBoxContainer"]
@@ -37,8 +38,8 @@ custom_fonts/font = ExtResource( 3 )
 text = "<"
 
 [node name="Image" type="TextureRect" parent="HBoxContainer"]
-margin_left = 49.0
-margin_right = 975.0
+margin_left = 35.0
+margin_right = 989.0
 margin_bottom = 582.0
 size_flags_horizontal = 3
 size_flags_vertical = 3

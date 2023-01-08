@@ -1,4 +1,4 @@
-extends Node2D
+extends "res://ResourceCards/ResourceCard.gd"
 
 
 # Declare member variables here. Examples:

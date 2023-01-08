@@ -16,7 +16,12 @@ func _ready():
 	get_images()
 	$NameLabel.text = title
 	imageNode = find_node("Image")
-	advance_image(1)
+	reroll()
+
+func reroll():
+	advance_image(randi()%images.size())
+
+
 
 func get_images():
 	images = dir_contents(images_location)
@@ -48,10 +53,12 @@ func dir_contents(path):
 
 func advance_image(direction : int):
 	currentImage += direction
-	if currentImage < 0:
-		currentImage = images.size() -1
-	elif currentImage == images.size():
-		currentImage = 0
+	
+	currentImage = currentImage % images.size()
+#	if currentImage < 0:
+#		currentImage = images.size() -1
+#	elif currentImage == images.size():
+#		currentImage = 0
 	imageNode.texture = load(images[currentImage])
 	imagePath = images[currentImage]
 

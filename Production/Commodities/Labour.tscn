@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Production/Commodities/Product.tscn" type="PackedScene" id=1]
+
+[node name="Labour" instance=ExtResource( 1 )]
+product_name = "Labour"

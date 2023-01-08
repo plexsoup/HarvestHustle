@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Objects/atmMachine.png" type="Texture" id=1]
+[ext_resource path="res://ResourceCards/ResourceCard.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Production/Commodities/CommoditiesCash.tscn" type="PackedScene" id=3]
+[ext_resource path="res://ResourceCards/Suppliers/ATMWithdrawls.gd" type="Script" id=4]
+
+[node name="ATMWithdrawals" instance=ExtResource( 2 )]
+script = ExtResource( 4 )
+resource_image = ExtResource( 1 )
+resource_name = "ATM Withdrawals"
+description = "Your friendly ATM, always ready to tap that bank balance.
+"
+price = 0
+
+[node name="ResourceImage" parent="." index="1"]
+texture = ExtResource( 1 )
+
+[node name="ResourceNameLabel" parent="." index="2"]
+text = "ATM Withdrawals"
+
+[node name="Cash" parent="Processing/Outputs" index="0" instance=ExtResource( 3 )]

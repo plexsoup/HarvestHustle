@@ -24,7 +24,7 @@ tool
 extends GraphNode
 
 
-var nextSlotPosition = 1
+
 
 enum States { READY, MOVING, RESIZING, DISABLED }
 var State = States.READY
@@ -47,34 +47,38 @@ func _ready():
 
 func activate():
 	State = States.READY
+	
+	
 
 func set_resource_texture(newTexture : Texture):
 	resource_texture = newTexture
-	$VBoxContainer/ResourcePic.texture = newTexture
+	$TopDisplay/ResourcePic.texture = newTexture
 	
-func add_output(converterScene):
-	pass
-	
+func setup_slots():
+	for slotNode in get_children():
+		if slotNode.name != "TopDisplay":
+			add_slot(slotNode, "left")
 
-func add_slot(side:String):
-
-	var enable_left : bool
-	var enable_right : bool
-	if side == "left":
-		enable_left = true
-		enable_right = false
-	else:
-		enable_right = true
-		enable_left = false
+func add_slot(newNode, side:String):
+	#add_child(newNode)
+	var enable_left : bool = side == "left"
+	var enable_right : bool = side == "right"
 	var type_left = 0
 	var type_right = 0
 	var color_left = Color.green
 	var color_right = Color.green
-	var custom_left = null # texture for input connector
-	var custom_right = null # texture for output connector
-	
+	var custom_left = null
+	var custom_right = null
+	var small_icon = make_small_icon(newNode.product_icon)
+#	if enable_left and small_icon != null:
+#		custom_left = small_icon # texture for input connector
+#	elif enable_right and small_icon != null:
+#		custom_right = small_icon # texture for output connector
+
+	var slotID = newNode.get_position_in_parent()
+	print("setting slot now at " + str(slotID))
 	set_slot(
-			nextSlotPosition, 
+			slotID,
 			enable_left, 
 			type_left, 
 			color_left, 
@@ -85,8 +89,21 @@ func add_slot(side:String):
 			custom_right
 	)
 
-	nextSlotPosition += 1
+	
+func make_small_icon(bigIcon):
+	var texture = ImageTexture.new()
+	var image = Image.new()
+	image = bigIcon.get_data()
+	image.resize(16, 16, Image.INTERPOLATE_NEAREST)
 
+	texture.create_from_image(image)
+
+	return(texture)
+
+	
+	
+	
+	
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -98,16 +115,16 @@ func _process(_delta):
 		if Input.is_action_pressed("resize_graphnode") == false:
 			State = States.READY
 	
-	# temporary for debugging
-	$VBoxContainer/StateLabel.text = States.keys()[State]
+
 
 
 # Warn users if the value hasn't been set.
 func _get_configuration_warning():
-	if get_child_count() <= 2:
-		return "Add CommodityConverter nodes as children"
-	else:
-		return ""
+	return ""
+#	if get_child_count() < 2:
+#		return "Add CommodityConverter nodes as children"
+#	else:
+#		return ""
 
 
 func _on_HustleGraphNode_resize_request(_new_minsize):

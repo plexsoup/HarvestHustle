@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://DesignNotes.gd" type="Script" id=1]
 [ext_resource path="res://Main.gd" type="Script" id=2]
 [ext_resource path="res://Player/Player.gd" type="Script" id=3]
 [ext_resource path="res://Levels/Spawner.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ResourceCards/CardDatabase.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Todo.gd" type="Script" id=6]
 
 [node name="Main" type="Control"]
 anchor_right = 1.0
@@ -13,6 +14,9 @@ script = ExtResource( 2 )
 
 [node name="DesignNotes" type="Node" parent="."]
 script = ExtResource( 1 )
+
+[node name="Todo" type="Node" parent="."]
+script = ExtResource( 6 )
 
 [node name="Spawner" parent="." instance=ExtResource( 4 )]
 

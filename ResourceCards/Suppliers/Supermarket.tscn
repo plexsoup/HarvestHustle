@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://ResourceCards/ResourceCard.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Locations/supermarket01.png" type="Texture" id=2]
+[ext_resource path="res://Production/Commodities/CommoditiesCash.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Production/Commodities/WhiteEggs.tscn" type="PackedScene" id=4]
+
+[node name="Supermarket" instance=ExtResource( 1 )]
+resource_image = ExtResource( 2 )
+resource_name = "Supermarket"
+description = "Super M Market is my favourite place to shop.
+"
+price = 0
+
+[node name="ResourceImage" parent="." index="1"]
+texture = ExtResource( 2 )
+
+[node name="ResourceNameLabel" parent="." index="2"]
+text = "Supermarket"
+
+[node name="Cash" parent="Processing/Inputs" index="0" instance=ExtResource( 3 )]
+
+[node name="WhiteEggs" parent="Processing/Outputs" index="0" instance=ExtResource( 4 )]
