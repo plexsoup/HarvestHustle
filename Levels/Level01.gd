@@ -23,3 +23,7 @@ func init(portraitImagePath : String, objectiveImagePath : String):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+
+func _on_Panel_popup_hide():
+	$VBoxContainer/Body/Board/Panel.queue_free()

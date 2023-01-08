@@ -9,7 +9,8 @@ extends GraphEdit
 
 
 var hustle_graph_node = load("res://GraphNetwork/HustleGraphNode.tscn")
-
+const port_grab_distance_horizontal = 48
+const port_grab_distance_vertical = 48
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

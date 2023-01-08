@@ -115,6 +115,7 @@ margin_top = 109.0
 margin_right = 606.0
 margin_bottom = 409.0
 rect_min_size = Vector2( 500, 300 )
+mouse_filter = 2
 window_title = "Instructions"
 resizable = true
 
@@ -162,3 +163,5 @@ autowrap = true
 margin_bottom = 573.0
 
 [node name="Deck" parent="." instance=ExtResource( 9 )]
+
+[connection signal="popup_hide" from="VBoxContainer/Body/Board/Panel" to="." method="_on_Panel_popup_hide"]

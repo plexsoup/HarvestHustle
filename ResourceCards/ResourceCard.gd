@@ -65,15 +65,10 @@ func setup_graph_node():
 	graphNode.title = resource_name
 
 	var inputNodes = $Processing/Inputs.get_children()
-	for inputNode in inputNodes:
-		var newNode = inputNode.duplicate()
-		graphNode.add_child(newNode)
-		graphNode.add_slot(newNode, "left")
+	graphNode.add_inputs(inputNodes)
+	
 	var outputNodes = $Processing/Outputs.get_children()
-	for outputNode in outputNodes:
-		var newNode = outputNode.duplicate()
-		graphNode.add_child(newNode)
-		graphNode.add_slot(newNode, "right")
+	graphNode.add_outputs(outputNodes)
 
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
