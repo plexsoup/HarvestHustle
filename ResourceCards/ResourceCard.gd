@@ -83,9 +83,10 @@ func setup_graph_node():
 	graphNode.add_inputs(inputNodes)
 	
 
+	if outputNodes.size() > 0:
+		graphNode.product_name = outputNodes[0].product_name
+		graphNode.product = outputNodes[0].duplicate()
 
-	graphNode.product_name = outputNodes[0].product_name
-	graphNode.product = outputNodes[0].duplicate()
 	graphNode.production_delay = production_delay
 	graphNode.rest_delay = rest_delay
 	graphNode.tone = tone
@@ -94,10 +95,13 @@ func setup_graph_node():
 	graphNode.short_desc = short_desc
 	graphNode.long_desc = long_desc
 	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	if Engine.is_editor_hint():
-#		return
+	custom_startup_behaviour()
+	
+	
+func custom_startup_behaviour():
+	pass
+	
+	
 
 
 
@@ -110,6 +114,13 @@ func set_image(myImage):
 	
 	if find_node("ResourceImage"):
 		$ResourceImage.texture = myImage
+		$ResourceImage.show()
+	
+	var graphNode = find_node("HustleGraphNode")
+	if graphNode:
+		graphNode.resource_texture = resource_image
+	
+		
 
 func set_category(myCategory):
 	$ResourceCategoryLabel.text = Categories.keys()[myCategory].capitalize()

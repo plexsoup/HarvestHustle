@@ -9,6 +9,7 @@ extends Control
 
 var levels = {
 	"DreamBoard":"res://DreamBoard/DreamBoard.tscn",
+	"Level00":"res://Levels/Level00.tscn",
 	"Game":"res://Levels/Level01.tscn",
 }
 

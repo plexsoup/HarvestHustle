@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://ResourceCards/ResourceCard.tscn" type="PackedScene" id=1]
+[ext_resource path="res://ResourceCards/Suppliers/DayJob.gd" type="Script" id=2]
+[ext_resource path="res://Production/Commodities/CommoditiesCash.tscn" type="PackedScene" id=3]
+[ext_resource path="res://sfx/High1716pickupCoin.wav" type="AudioStream" id=4]
+
+[node name="DayJob" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+resource_image = null
+resource_name = "Day Job"
+price = 0
+short_desc = "Generates Wealth, slowly"
+long_desc = "You're good at it, and you enjoy it, but it's still the daily grind. All things considered, you'd rather be doing something else."
+burst_size = 2
+rest_beats = 7.0
+tone = ExtResource( 4 )
+
+[node name="Cash" parent="Processing/Outputs" index="0" instance=ExtResource( 3 )]

@@ -18,20 +18,35 @@ export (CommodityDatabase.Commodities) var product_type : int
 
 var quantity_held : int = 0
 
+enum States { INITIALIZING, READY, DISABLED }
+var State = States.INITIALIZING
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$HBoxContainer/ProductName.text = product_name
 	
 
-func receive_product(amount):
+func _receive_product(amount):
+	# from who?
 	quantity_held += amount
 
+
 func give_product(amount):
+	# to who?
+	
 	if quantity_held >= amount:
 		quantity_held -= amount
 	else:
 		return false # insufficient quantity
 	
+
+
+func deactivate():
+	State = States.DISABLED
+	
+func activate():
+	State = States.READY
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

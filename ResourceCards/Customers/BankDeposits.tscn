@@ -1,26 +1,28 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://ResourceCards/ResourceCard.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Locations/supermarket01.png" type="Texture" id=2]
+[ext_resource path="res://Objects/atmMachine.png" type="Texture" id=2]
 [ext_resource path="res://Production/Commodities/CommoditiesCash.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Production/Commodities/WhiteEggs.tscn" type="PackedScene" id=4]
 
-[node name="Supermarket" instance=ExtResource( 1 )]
+[node name="BankDeposits" instance=ExtResource( 1 )]
 resource_image = ExtResource( 2 )
-resource_name = "Supermarket"
+resource_name = "Bank Deposits"
+resource_category = 2
 price = 0
-burst_size = 1
-rest_beats = 3.5
+short_desc = "Savings Account"
+long_desc = "Some people save for a rainy day, you save for retirement. It's just bits in a database, but somehow they bring you happiness. These numbers never go up fast enough.
+"
+
+[node name="ResourceCategoryLabel" parent="." index="0"]
+text = "Customer"
 
 [node name="ResourceImage" parent="." index="1"]
 texture = ExtResource( 2 )
 
 [node name="ResourceNameLabel" parent="." index="2"]
-text = "Supermarket"
+text = "Bank Deposits"
 
 [node name="HustleGraphNode" parent="." index="4"]
 resource_texture = ExtResource( 2 )
 
 [node name="Cash" parent="Processing/Inputs" index="0" instance=ExtResource( 3 )]
-
-[node name="WhiteEggs" parent="Processing/Outputs" index="0" instance=ExtResource( 4 )]
