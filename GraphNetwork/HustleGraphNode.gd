@@ -322,7 +322,7 @@ func spawn_product():
 	produce_sound()
 	lightup_output_line_briefly()
 	
-	emit_signal("product_ready", product)
+	emit_signal("product_ready", product_name)
 	$TopDisplay/InfoVBox/ProductionTimer.stop()
 	produced_this_burst += 1
 	if produced_this_burst >= burst_size:
@@ -350,10 +350,6 @@ func produce_sound():
 
 func requirements_met():
 	if requirements.size() == 0:
-		# if the output is for "cash": deduct money from Global.player.cash
-		if product_name.to_lower() == "cash":
-			Global.player.cash -= 1
-
 		return true
 
 	for requirement in requirements:
@@ -368,12 +364,11 @@ func _on_ProductionTimer_timeout():
 func get_commodity_count(commodityName : String):
 	return buffer.count(commodityName)
 	
-func _on_commodity_received(commodityObj):
-	print(self.title + " received " + commodityObj.product_name )
+func _on_commodity_received(commodityName : String):
 	if buffer.size() < buffer_size:
-		buffer.push_back(commodityObj.product_name )
+		buffer.push_back(commodityName )
 	
-	lightup_input_line_briefly(commodityObj.product_name)
+	lightup_input_line_briefly(commodityName)
 	
 	if State == States.READY and requirements_met():
 		if $TopDisplay/InfoVBox/RestTimer.is_stopped() and $TopDisplay/InfoVBox/ProductionTimer.is_stopped():

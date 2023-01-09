@@ -20,8 +20,8 @@ export var rest_beats : float = 2.5
 
 export var tone : AudioStream
 
-var production_delay = Global.spb * production_beats
-var rest_delay = Global.spb * rest_beats
+var production_delay : float
+var rest_delay : float
 
 
 enum States { FORSALE, READY, DRAGGING, DROPPED }
@@ -42,7 +42,10 @@ func _get_configuration_warning():
 func _ready():
 	if Engine.is_editor_hint():
 		return
-	
+
+	production_delay = Global.spb * production_beats
+	rest_delay = Global.spb * rest_beats
+
 	if resource_name != null:
 		$ResourceNameLabel.text = resource_name
 	

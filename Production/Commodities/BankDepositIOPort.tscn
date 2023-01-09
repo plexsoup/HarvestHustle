@@ -6,6 +6,6 @@
 
 [node name="BankDeposit" instance=ExtResource( 3 )]
 script = ExtResource( 1 )
-product_name = "cash"
+product_name = "Cash"
 product_icon = ExtResource( 2 )
 port_enabled = false

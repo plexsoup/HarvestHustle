@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://GraphNetwork/HustleGraph.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ResourceCards/Suppliers/DayJob.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Levels/CashScorecard.gd" type="Script" id=4]
 [ext_resource path="res://Levels/Upgrades.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Levels/Level.gd" type="Script" id=6]
 [ext_resource path="res://ResourceCards/Customers/BankDeposits.tscn" type="PackedScene" id=7]
@@ -35,20 +34,20 @@ align = 1
 [node name="Body" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 27.0
 margin_right = 1024.0
-margin_bottom = 600.0
+margin_bottom = 610.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="LeftSide" type="ScrollContainer" parent="VBoxContainer/Body"]
 margin_right = 145.0
-margin_bottom = 573.0
+margin_bottom = 583.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Body/LeftSide"]
 margin_right = 145.0
-margin_bottom = 573.0
+margin_bottom = 583.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -68,32 +67,31 @@ margin_right = 72.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 11 )
 text = "0"
-script = ExtResource( 4 )
 
 [node name="Upgrades" parent="VBoxContainer/Body/LeftSide/VBoxContainer" instance=ExtResource( 5 )]
 margin_top = 27.0
 margin_right = 145.0
-margin_bottom = 573.0
+margin_bottom = 583.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
 [node name="DayJob" parent="VBoxContainer/Body/LeftSide/VBoxContainer/Upgrades" instance=ExtResource( 3 )]
-margin_top = 178.0
+margin_top = 165.0
 margin_right = 145.0
-margin_bottom = 271.0
+margin_bottom = 276.0
 
 [node name="BankDeposits" parent="VBoxContainer/Body/LeftSide/VBoxContainer/Upgrades" instance=ExtResource( 7 )]
-margin_top = 275.0
+margin_top = 280.0
 margin_right = 145.0
-margin_bottom = 368.0
+margin_bottom = 391.0
 
 [node name="Board" parent="VBoxContainer/Body" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 149.0
 margin_right = 874.0
-margin_bottom = 573.0
+margin_bottom = 583.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_offset = Vector2( -328, 0 )
@@ -150,7 +148,7 @@ text = "3. When you have a bit more money, we'll give you more options."
 autowrap = true
 
 [node name="Objective" parent="VBoxContainer/Body" instance=ExtResource( 8 )]
-margin_bottom = 573.0
+margin_bottom = 583.0
 
 [node name="Deck" parent="." instance=ExtResource( 9 )]
 

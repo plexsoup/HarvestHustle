@@ -20,10 +20,10 @@ func _ready():
 #			Global.player.cash += 1
 #
 
-func _on_commodity_received(): # comes from the GraphNode, connected when it added this node as an output with no ports enabled.
-	Global.player.cash += 1
-	print("ATM got cash deposit")
-	
+func _on_commodity_received(productName : String): # comes from the GraphNode, connected when it added this node as an output with no ports enabled.
+	if productName == "Cash":
+		Global.player.cash += 1
+		
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
