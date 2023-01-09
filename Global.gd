@@ -12,9 +12,9 @@ var card_database
 var bpm : float = 75.0
 var spb : float = 1.0/(bpm/60.0)
 
-var portrait_image_path : String
-var objective_image_path : String
-var aptitude_image_path : String
+var portrait_image : Texture
+var objective_image : Texture
+var aptitude_image : Texture
 
 
 # Called when the node enters the scene tree for the first time.

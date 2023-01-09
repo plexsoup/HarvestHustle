@@ -149,14 +149,11 @@ func _on_ResourceCard_gui_input(event):
 		return
 	
 	if event is InputEventMouseButton and event.is_pressed() == true:
-		if Global.player.cash >= price:
-			Global.player.cash -= price
-			# drag the card onto the stage
-			spawn_sprite()
-			queue_free()
+		#if Global.player.cash >= price:
+		Global.player.cash -= price # allow debt
+		# drag the card onto the stage
+		spawn_sprite()
+		queue_free()
 			
-		else:
-			# play a sound and pop up an explanation
-			print("Not enough cash")
 		
 

@@ -21,6 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Harvest Hustle"
+config/description="A musical toy based on side-hustles in pursuit of your best life."
 run/main_scene="res://Main.tscn"
 config/icon="res://icon2.png"
 

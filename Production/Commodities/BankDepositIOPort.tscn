@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Production/Commodities/BankDepositIOPort.gd" type="Script" id=1]
-[ext_resource path="res://Production/Commodities/cash.png" type="Texture" id=2]
+[ext_resource path="res://Textures/cash.png" type="Texture" id=2]
 [ext_resource path="res://Production/Commodities/ProductIO.tscn" type="PackedScene" id=3]
 
 [node name="BankDeposit" instance=ExtResource( 3 )]

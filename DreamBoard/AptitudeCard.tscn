@@ -1,0 +1,71 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://DreamBoard/SelectionCard.tscn" type="PackedScene" id=1]
+[ext_resource path="res://DreamBoard/Aptitudes/drinking.png" type="Texture" id=2]
+[ext_resource path="res://DreamBoard/Aptitudes/particlePhysics.png" type="Texture" id=3]
+[ext_resource path="res://DreamBoard/Aptitudes/painting.png" type="Texture" id=4]
+[ext_resource path="res://DreamBoard/Aptitudes/slacking.png" type="Texture" id=5]
+[ext_resource path="res://DreamBoard/Aptitudes/Neuroscience.png" type="Texture" id=6]
+[ext_resource path="res://DreamBoard/Aptitudes/selling.png" type="Texture" id=7]
+[ext_resource path="res://DreamBoard/Aptitudes/growing.png" type="Texture" id=8]
+[ext_resource path="res://DreamBoard/Aptitudes/logistics.png" type="Texture" id=9]
+[ext_resource path="res://DreamBoard/Aptitudes/athletics.png" type="Texture" id=10]
+
+[node name="AptitudeCard" instance=ExtResource( 1 )]
+
+[node name="Image2" parent="ImageTabs" index="0"]
+texture = ExtResource( 10 )
+
+[node name="Image3" parent="ImageTabs" index="1"]
+texture = ExtResource( 2 )
+
+[node name="Image4" parent="ImageTabs" index="2"]
+texture = ExtResource( 8 )
+
+[node name="Image5" parent="ImageTabs" index="3"]
+texture = ExtResource( 9 )
+
+[node name="Image6" parent="ImageTabs" index="4"]
+texture = ExtResource( 6 )
+
+[node name="Image7" parent="ImageTabs" index="5"]
+texture = ExtResource( 4 )
+
+[node name="Image8" parent="ImageTabs" index="6"]
+texture = ExtResource( 3 )
+
+[node name="Image9" parent="ImageTabs" index="7"]
+texture = ExtResource( 7 )
+
+[node name="Image10" parent="ImageTabs" index="8"]
+texture = ExtResource( 5 )
+
+[node name="Image11" parent="ImageTabs" index="9"]
+texture = ExtResource( 10 )
+
+[node name="Image12" parent="ImageTabs" index="10"]
+texture = ExtResource( 2 )
+
+[node name="Image13" parent="ImageTabs" index="11"]
+texture = ExtResource( 8 )
+
+[node name="Image14" parent="ImageTabs" index="12"]
+texture = ExtResource( 9 )
+
+[node name="Image15" parent="ImageTabs" index="13"]
+texture = ExtResource( 6 )
+
+[node name="Image16" parent="ImageTabs" index="14"]
+texture = ExtResource( 4 )
+
+[node name="Image17" parent="ImageTabs" index="15"]
+texture = ExtResource( 3 )
+
+[node name="Image18" parent="ImageTabs" index="16"]
+texture = ExtResource( 7 )
+
+[node name="Image19" parent="ImageTabs" index="17"]
+texture = ExtResource( 5 )
+
+[node name="Image20" parent="ImageTabs" index="18"]
+texture = ExtResource( 4 )

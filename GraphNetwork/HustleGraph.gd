@@ -50,8 +50,8 @@ func spawn_popup_number(value):
 	
 
 func _on_HustleGraph_connection_request(from, from_slot, to, to_slot):
-	print("From: " + from + ", " + str(from_slot))
-	print("To: " + to + ", " + str(to_slot))
+	#print("From: " + from + ", " + str(from_slot))
+	#print("To: " + to + ", " + str(to_slot))
 	
 	var fromGraphNode = get_node(from)
 	var toGraphNode = get_node(to)
