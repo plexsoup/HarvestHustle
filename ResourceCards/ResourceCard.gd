@@ -20,8 +20,8 @@ export var rest_beats : float = 2.5
 
 export var tone : AudioStream
 
-var production_delay = Global.spb * production_beats
-var rest_delay = Global.spb * rest_beats
+var production_delay : float
+var rest_delay : float
 
 
 enum States { FORSALE, READY, DRAGGING, DROPPED }
@@ -42,7 +42,10 @@ func _get_configuration_warning():
 func _ready():
 	if Engine.is_editor_hint():
 		return
-	
+
+	production_delay = Global.spb * production_beats
+	rest_delay = Global.spb * rest_beats
+
 	if resource_name != null:
 		$ResourceNameLabel.text = resource_name
 	
@@ -53,22 +56,23 @@ func _ready():
 	$HustleGraphNode.set_visible(false)
 
 	setup_graph_node()
-
+	custom_startup_behaviour()
+		
 	#delayed_ready(0.25) # let parents initialize first
 
 
-func delayed_ready(timeToWait):
-	var timer = get_tree().create_timer(timeToWait)
-	yield(timer, "timeout")
-	pass
-#	var err = connect("resource_dropped", Global.hustle_graph, "_on_resource_dropped")
-#	if err != OK:
-#		printerr(self.name + " ResourceCard.gd")
-#		printerr(err)
-
-	if resource_image != null:
-		$ResourceImage.texture = resource_image
-		$ResourceImage.show()
+#func delayed_ready(timeToWait):
+#	var timer = get_tree().create_timer(timeToWait)
+#	yield(timer, "timeout")
+#	pass
+##	var err = connect("resource_dropped", Global.hustle_graph, "_on_resource_dropped")
+##	if err != OK:
+##		printerr(self.name + " ResourceCard.gd")
+##		printerr(err)
+#
+#	if resource_image != null:
+#		$ResourceImage.texture = resource_image
+#		$ResourceImage.show()
 
 func setup_graph_node():
 	var graphNode = $HustleGraphNode
@@ -83,9 +87,10 @@ func setup_graph_node():
 	graphNode.add_inputs(inputNodes)
 	
 
+	if outputNodes.size() > 0:
+		graphNode.product_name = outputNodes[0].product_name
+		graphNode.product = outputNodes[0].duplicate()
 
-	graphNode.product_name = outputNodes[0].product_name
-	graphNode.product = outputNodes[0].duplicate()
 	graphNode.production_delay = production_delay
 	graphNode.rest_delay = rest_delay
 	graphNode.tone = tone
@@ -94,10 +99,13 @@ func setup_graph_node():
 	graphNode.short_desc = short_desc
 	graphNode.long_desc = long_desc
 	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	if Engine.is_editor_hint():
-#		return
+
+	
+	
+func custom_startup_behaviour():
+	pass
+	
+	
 
 
 
@@ -110,6 +118,13 @@ func set_image(myImage):
 	
 	if find_node("ResourceImage"):
 		$ResourceImage.texture = myImage
+		$ResourceImage.show()
+	
+	var graphNode = find_node("HustleGraphNode")
+	if graphNode:
+		graphNode.resource_texture = resource_image
+	
+		
 
 func set_category(myCategory):
 	$ResourceCategoryLabel.text = Categories.keys()[myCategory].capitalize()

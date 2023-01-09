@@ -5,6 +5,7 @@ margin_right = 66.0
 margin_bottom = 445.0
 
 [node name="Label" type="Label" parent="."]
+visible = false
 margin_right = 66.0
 margin_bottom = 14.0
 text = "Upgrades!"

@@ -39,6 +39,8 @@ var product_name : String
 
 var requirements = [] # list of Commodity names required to produce product
 var outputs = [] # list of Commodity names produced by this node
+var output_slots = []
+
 
 var production_delay setget set_production_delay
 var rest_delay setget set_rest_delay
@@ -66,7 +68,7 @@ func _ready():
 
 	set_resizable(true)
 	if resource_texture != null:
-		$VBoxContainer/ResourcePic.texture = resource_texture
+		$TopDisplay/InfoVBox/ResourcePic.texture = resource_texture
 		$TopDisplay/InfoVBox/PopupInfoDialog/PopupHbox/ResourcePic2.texture = resource_texture
 	State = States.DISABLED
 
@@ -85,7 +87,7 @@ func generate_pitch_sequence():
 	for i in range(length):
 		pitch_sequence.push_back(last_index_value)
 		last_index_value += ( randi()%3 - 1 ) * trendDirection
-		last_index_value = last_index_value % pitch_sequence.size()
+		last_index_value = last_index_value % pitch_scale.size()
 
 		if i%4 == 0:
 			if randf() < 0.33:
@@ -138,6 +140,7 @@ func set_resource_texture(newTexture : Texture):
 
 func add_outputs(newOutputs : Array):
 	add_slots(newOutputs, "output")
+	
 
 func add_inputs(newInputs : Array):
 	add_slots(newInputs, "input")
@@ -148,10 +151,6 @@ func add_dummy_spacer():
 	spacer.rect_min_size = Vector2(5, 10)
 	spacer.rect_size = spacer.rect_min_size
 	add_child(spacer)
-#	var colorRec = ColorRect.new()
-#	colorRec.color = Color.burlywood
-#	colorRec.rect_min_size = Vector2(30, 50)
-#	spacer.add_child(colorRec)
 
 
 func add_slots(newSlots : Array, portType : String):
@@ -166,9 +165,10 @@ func add_slot(newNode, side:String):
 		requirements.append(newNode.name)
 	else:
 		outputs.append(newNode.name)
+		output_slots.append(newNode)
+		
 
 	add_child(newNode) # Important
-	
 	
 	
 	var enable_left : bool = side == "input"
@@ -179,6 +179,16 @@ func add_slot(newNode, side:String):
 	var color_right = Color.green
 	var custom_left = null
 	var custom_right = null
+	
+	if "Bank" in newNode.name:
+		print("Bank Deposits")
+		
+	if newNode.get("port_enabled") != null and newNode.port_enabled == false:
+		enable_left = false
+		enable_right = false
+		if side == "output":
+			connect_output_to_custom_code(newNode)
+	
 #	var small_icon = make_small_icon(newNode.product_icon)
 #	if enable_left and small_icon != null:
 #		custom_left = small_icon # texture for input connector
@@ -267,13 +277,52 @@ func connect_output_to_customer(customerGraphNode):
 	if err != OK:
 		printerr("HustleGraphNode.gd error connecting to customer: ", err)
 	
+func connect_output_to_custom_code(outputNode):
+	var err = connect("product_ready", outputNode, "_on_commodity_received")
+	if err != OK:
+		printerr("HustleGraphNode.gd error connecting to custom output slot: ", err)
+
+
+
+func lightup_output_line_briefly():
+	if output_slots.size() > 0:
+		#set_slot_color_right(output_slot_ID, Color.yellow)
+		var tween = get_tree().create_tween()
+		tween.tween_method(self, "colorize_output_line", Color.yellow, Color.darkblue, 0.75)
+
+func colorize_output_line(newColor):
+	set_slot_color_right(output_slots[0].get_position_in_parent(), newColor)
+
+func lightup_input_line_briefly(commodityName):
+	var tween = get_tree().create_tween()
+	tween.tween_method(self, "colorize_input_line", Color.yellow, Color.darkblue, 0.75, [commodityName])
+	
+	
+func colorize_input_line(newColor, commodityName):
+	var slotIdx = get_input_slot(commodityName)
+	if slotIdx != null:
+		set_slot_color_left(slotIdx, newColor)
+
+
+func get_input_slot(commodityName): 
+	# technical debt. We should already know the slot ID
+	# this will fail if there's more than one input with the same commodity name
+	# it also doesn't check if the slot is an input or output, so wouldn't work for throughput graphnodes
+	
+	for child in get_children():
+		if child.get("product_name"):
+			if child.product_name == commodityName:
+				return child.get_position_in_parent()
+
+	
+	
 
 func spawn_product():
 	
 	produce_sound()
+	lightup_output_line_briefly()
 	
-	
-	emit_signal("product_ready", product)
+	emit_signal("product_ready", product_name)
 	$TopDisplay/InfoVBox/ProductionTimer.stop()
 	produced_this_burst += 1
 	if produced_this_burst >= burst_size:
@@ -284,7 +333,7 @@ func spawn_product():
 	
 func produce_sound():
 	if $TopDisplay/InfoVBox.visible:
-		var soundSystem = Global.audio_manager
+		#var soundSystem = Global.audio_manager
 		var audioPlayer = $TopDisplay/InfoVBox/Audio/ProductionCompleteNoise
 
 		current_pitch_selection_index += 1
@@ -301,10 +350,6 @@ func produce_sound():
 
 func requirements_met():
 	if requirements.size() == 0:
-		# if the output is for "cash": deduct money from Global.player.cash
-		if product_name.to_lower() == "cash":
-			Global.player.cash -= 1
-
 		return true
 
 	for requirement in requirements:
@@ -319,11 +364,15 @@ func _on_ProductionTimer_timeout():
 func get_commodity_count(commodityName : String):
 	return buffer.count(commodityName)
 	
-func _on_commodity_received(commodityObj):
-	print(self.title + " received " + commodityObj.product_name )
+func _on_commodity_received(commodityName : String):
 	if buffer.size() < buffer_size:
-		buffer.push_back(commodityObj.product_name )
-
+		buffer.push_back(commodityName )
+	
+	lightup_input_line_briefly(commodityName)
+	
+	if State == States.READY and requirements_met():
+		if $TopDisplay/InfoVBox/RestTimer.is_stopped() and $TopDisplay/InfoVBox/ProductionTimer.is_stopped():
+			$TopDisplay/InfoVBox/ProductionTimer.start()
 
 
 func _on_RestTimer_timeout():

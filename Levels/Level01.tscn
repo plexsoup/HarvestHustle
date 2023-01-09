@@ -1,13 +1,12 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://ResourceCards/Suppliers/Supermarket.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GraphNetwork/HustleGraph.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ResourceCards/Customers/AuntDoris.tscn" type="PackedScene" id=3]
 [ext_resource path="res://ResourceCards/Accelerators/Friend.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Levels/Level01.gd" type="Script" id=5]
+[ext_resource path="res://Levels/Level.gd" type="Script" id=5]
 [ext_resource path="res://Levels/Upgrades.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Levels/ObjectiveSidebar.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Levels/CashScorecard.gd" type="Script" id=8]
 [ext_resource path="res://ResourceCards/ResourceDeck.tscn" type="PackedScene" id=9]
 [ext_resource path="res://ResourceCards/Suppliers/ATMWithdrawls.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Fonts/SlackeyFont16.tres" type="DynamicFont" id=11]
@@ -70,7 +69,6 @@ margin_right = 72.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 11 )
 text = "0"
-script = ExtResource( 8 )
 
 [node name="Upgrades" parent="VBoxContainer/Body/LeftSide/VBoxContainer" instance=ExtResource( 6 )]
 margin_top = 27.0
@@ -81,24 +79,24 @@ size_flags_vertical = 3
 alignment = 1
 
 [node name="AuntDoris" parent="VBoxContainer/Body/LeftSide/VBoxContainer/Upgrades" instance=ExtResource( 3 )]
-margin_top = 18.0
+margin_top = 45.0
 margin_right = 145.0
-margin_bottom = 147.0
+margin_bottom = 156.0
 
 [node name="Friend" parent="VBoxContainer/Body/LeftSide/VBoxContainer/Upgrades" instance=ExtResource( 4 )]
-margin_top = 151.0
+margin_top = 160.0
 margin_right = 145.0
-margin_bottom = 280.0
+margin_bottom = 271.0
 
 [node name="ATM" parent="VBoxContainer/Body/LeftSide/VBoxContainer/Upgrades" instance=ExtResource( 10 )]
-margin_top = 284.0
+margin_top = 275.0
 margin_right = 145.0
-margin_bottom = 413.0
+margin_bottom = 386.0
 
 [node name="Supermarket" parent="VBoxContainer/Body/LeftSide/VBoxContainer/Upgrades" instance=ExtResource( 1 )]
-margin_top = 417.0
+margin_top = 390.0
 margin_right = 145.0
-margin_bottom = 546.0
+margin_bottom = 501.0
 
 [node name="Board" parent="VBoxContainer/Body" instance=ExtResource( 2 )]
 anchor_right = 0.0

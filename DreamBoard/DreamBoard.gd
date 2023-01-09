@@ -25,7 +25,8 @@ func reroll_selectors():
 func _on_StartGameButton_pressed():
 	Global.portrait_image_path = $VBoxContainer/Body/Character.imagePath
 	Global.objective_image_path = $VBoxContainer/Body/ObjectiveCard.imagePath
-	Global.stage_manager.switch_scene("Game")
+	Global.aptitude_image_path = $VBoxContainer/Body/HBoxContainer/AptitudeCard.imagePath
+	Global.stage_manager.switch_scene("Level00")
 
 	
 

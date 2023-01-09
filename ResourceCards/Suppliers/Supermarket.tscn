@@ -8,15 +8,18 @@
 [node name="Supermarket" instance=ExtResource( 1 )]
 resource_image = ExtResource( 2 )
 resource_name = "Supermarket"
-description = "Super M Market is my favourite place to shop.
-"
 price = 0
+burst_size = 1
+rest_beats = 3.5
 
 [node name="ResourceImage" parent="." index="1"]
 texture = ExtResource( 2 )
 
 [node name="ResourceNameLabel" parent="." index="2"]
 text = "Supermarket"
+
+[node name="HustleGraphNode" parent="." index="4"]
+resource_texture = ExtResource( 2 )
 
 [node name="Cash" parent="Processing/Inputs" index="0" instance=ExtResource( 3 )]
 
