@@ -1,0 +1,175 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://DreamBoard/SelectionCard.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Fonts/SlackeyFont96.tres" type="DynamicFont" id=3]
+[ext_resource path="res://DreamBoard/DreamBoard.gd" type="Script" id=6]
+
+[sub_resource type="Animation" id=1]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("VBoxContainer/Body/NextLabel:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("VBoxContainer/Body/ObjectiveCard:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "RevealDream"
+length = 2.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("VBoxContainer/Body/NextLabel:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("VBoxContainer/Body/ObjectiveCard:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[node name="DreamBoard" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 6 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Header" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 1024.0
+margin_bottom = 135.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.25
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/Header"]
+margin_left = 99.0
+margin_right = 924.0
+margin_bottom = 135.0
+custom_fonts/font = ExtResource( 3 )
+text = "Dream Board!"
+align = 1
+
+[node name="Body" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 139.0
+margin_right = 1024.0
+margin_bottom = 504.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Character" parent="VBoxContainer/Body" instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 293.0
+margin_bottom = 365.0
+rect_min_size = Vector2( 200, 0 )
+title = "Choose Portrait"
+
+[node name="NextLabel" type="Label" parent="VBoxContainer/Body"]
+margin_left = 297.0
+margin_top = 115.0
+margin_right = 361.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 64, 64 )
+size_flags_horizontal = 0
+size_flags_vertical = 6
+custom_fonts/font = ExtResource( 3 )
+text = "+"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Body"]
+margin_left = 365.0
+margin_right = 658.0
+margin_bottom = 365.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="AptitudeCard" parent="VBoxContainer/Body/HBoxContainer" instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 293.0
+margin_bottom = 365.0
+images_location = "res://DreamBoard/Aptitudes/"
+title = "Choose Aptitude"
+
+[node name="NextLabel2" type="Label" parent="VBoxContainer/Body"]
+margin_left = 662.0
+margin_top = 115.0
+margin_right = 726.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 64, 64 )
+size_flags_horizontal = 0
+size_flags_vertical = 6
+custom_fonts/font = ExtResource( 3 )
+text = "="
+
+[node name="ObjectiveCard" parent="VBoxContainer/Body" instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 730.0
+margin_right = 1024.0
+margin_bottom = 365.0
+images_location = "res://DreamBoard/Objectives/"
+title = "Choose Objective"
+
+[node name="Footer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 508.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.25
+
+[node name="StartGameButton" type="Button" parent="VBoxContainer/Footer"]
+margin_right = 971.0
+margin_bottom = 92.0
+size_flags_horizontal = 3
+text = "I'm Ready! Let's Begin."
+
+[node name="RerollButton" type="Button" parent="VBoxContainer/Footer"]
+margin_left = 975.0
+margin_right = 1024.0
+margin_bottom = 92.0
+text = "Reroll"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 1 )
+anims/RevealDream = SubResource( 2 )
+
+[connection signal="pressed" from="VBoxContainer/Footer/StartGameButton" to="." method="_on_StartGameButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/Footer/RerollButton" to="." method="_on_RerollButton_pressed"]

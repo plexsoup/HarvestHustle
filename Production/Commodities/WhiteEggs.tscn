@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Objects/whiteEggs.png" type="Texture" id=1]
+[ext_resource path="res://Production/Commodities/ProductIO.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Objects/eggSprite.png" type="Texture" id=3]
+
+[node name="WhiteEggs" instance=ExtResource( 2 )]
+product_name = "Eggs"
+product_icon = ExtResource( 3 )
+product_graphic = ExtResource( 1 )
+product_type = 1

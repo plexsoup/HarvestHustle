@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Production/Commodities/ProductIO.gd" type="Script" id=1]
+
+[node name="ProductIOPort" type="MarginContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 50, 30 )
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 1 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 600.0
+mouse_filter = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="QuantityHeld" type="Label" parent="HBoxContainer"]
+margin_left = 460.0
+margin_top = 293.0
+margin_right = 468.0
+margin_bottom = 307.0
+text = "0"
+
+[node name="ProductName" type="Label" parent="HBoxContainer"]
+margin_left = 472.0
+margin_top = 293.0
+margin_right = 563.0
+margin_bottom = 307.0
+text = "Product Name"

@@ -1,0 +1,169 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://ResourceCards/Suppliers/Supermarket.tscn" type="PackedScene" id=1]
+[ext_resource path="res://GraphNetwork/HustleGraph.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ResourceCards/Customers/AuntDoris.tscn" type="PackedScene" id=3]
+[ext_resource path="res://ResourceCards/Accelerators/Friend.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Levels/Level01.gd" type="Script" id=5]
+[ext_resource path="res://Levels/Upgrades.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Levels/ObjectiveSidebar.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Levels/CashScorecard.gd" type="Script" id=8]
+[ext_resource path="res://ResourceCards/ResourceDeck.tscn" type="PackedScene" id=9]
+[ext_resource path="res://ResourceCards/Suppliers/ATMWithdrawls.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Fonts/SlackeyFont16.tres" type="DynamicFont" id=11]
+
+[node name="Level01" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 5 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Header" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 1024.0
+margin_bottom = 23.0
+alignment = 1
+
+[node name="Title" type="Label" parent="VBoxContainer/Header"]
+margin_left = 442.0
+margin_right = 582.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 11 )
+text = "Harvest Hustle"
+align = 1
+
+[node name="Body" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 27.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LeftSide" type="ScrollContainer" parent="VBoxContainer/Body"]
+margin_right = 145.0
+margin_bottom = 573.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Body/LeftSide"]
+margin_right = 145.0
+margin_bottom = 573.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BankAccount" type="HBoxContainer" parent="VBoxContainer/Body/LeftSide/VBoxContainer"]
+margin_right = 145.0
+margin_bottom = 23.0
+
+[node name="Label" type="Label" parent="VBoxContainer/Body/LeftSide/VBoxContainer/BankAccount"]
+margin_right = 57.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 11 )
+text = "Cash: "
+
+[node name="Cash" type="Label" parent="VBoxContainer/Body/LeftSide/VBoxContainer/BankAccount"]
+margin_left = 61.0
+margin_right = 72.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 11 )
+text = "0"
+script = ExtResource( 8 )
+
+[node name="Upgrades" parent="VBoxContainer/Body/LeftSide/VBoxContainer" instance=ExtResource( 6 )]
+margin_top = 27.0
+margin_right = 145.0
+margin_bottom = 573.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="AuntDoris" parent="VBoxContainer/Body/LeftSide/VBoxContainer/Upgrades" instance=ExtResource( 3 )]
+margin_top = 18.0
+margin_right = 145.0
+margin_bottom = 147.0
+
+[node name="Friend" parent="VBoxContainer/Body/LeftSide/VBoxContainer/Upgrades" instance=ExtResource( 4 )]
+margin_top = 151.0
+margin_right = 145.0
+margin_bottom = 280.0
+
+[node name="ATM" parent="VBoxContainer/Body/LeftSide/VBoxContainer/Upgrades" instance=ExtResource( 10 )]
+margin_top = 284.0
+margin_right = 145.0
+margin_bottom = 413.0
+
+[node name="Supermarket" parent="VBoxContainer/Body/LeftSide/VBoxContainer/Upgrades" instance=ExtResource( 1 )]
+margin_top = 417.0
+margin_right = 145.0
+margin_bottom = 546.0
+
+[node name="Board" parent="VBoxContainer/Body" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 149.0
+margin_right = 874.0
+margin_bottom = 573.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+scroll_offset = Vector2( -328, 0 )
+
+[node name="Panel" type="AcceptDialog" parent="VBoxContainer/Body/Board"]
+visible = true
+margin_left = 106.0
+margin_top = 109.0
+margin_right = 606.0
+margin_bottom = 409.0
+rect_min_size = Vector2( 500, 300 )
+mouse_filter = 2
+window_title = "Instructions"
+resizable = true
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Body/Board/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -36.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Body/Board/Panel/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 464.0
+margin_bottom = 236.0
+custom_constants/separation = 20
+
+[node name="Label1" type="Label" parent="VBoxContainer/Body/Board/Panel/MarginContainer/VBoxContainer"]
+margin_right = 444.0
+margin_bottom = 48.0
+text = "1. Drag all of the FREE resources from the left sidebar (your hand), into the middle (the board).
+"
+autowrap = true
+
+[node name="Label2" type="Label" parent="VBoxContainer/Body/Board/Panel/MarginContainer/VBoxContainer"]
+margin_top = 68.0
+margin_right = 444.0
+margin_bottom = 99.0
+text = "2. Connect the Supermarket to Aunt Doris by dragging the output slot to the input slot."
+autowrap = true
+
+[node name="Label3" type="Label" parent="VBoxContainer/Body/Board/Panel/MarginContainer/VBoxContainer"]
+margin_top = 119.0
+margin_right = 444.0
+margin_bottom = 150.0
+text = "3. When you have enough money, drag your friend into one of the hexagonal sockets on the supermarket."
+autowrap = true
+
+[node name="Objective" parent="VBoxContainer/Body" instance=ExtResource( 7 )]
+margin_bottom = 573.0
+
+[node name="Deck" parent="." instance=ExtResource( 9 )]
+
+[connection signal="popup_hide" from="VBoxContainer/Body/Board/Panel" to="." method="_on_Panel_popup_hide"]

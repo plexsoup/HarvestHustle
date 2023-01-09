@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://ResourceCards/ResourceCard.tscn" type="PackedScene" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://GraphNetwork/HustleGraphNode.tscn" type="PackedScene" id=3]
+[ext_resource path="res://_dep_Resources/Resource.gd" type="Script" id=4]
+
+[node name="Resource" type="Node"]
+script = ExtResource( 4 )
+
+[node name="ResourceCard" parent="." instance=ExtResource( 1 )]
+resource_image = ExtResource( 2 )
+resource_name = "ResourceName"
+
+[node name="HustleGraphNode" parent="." instance=ExtResource( 3 )]
+visible = false
+
+[node name="Sprite" type="Sprite" parent="."]

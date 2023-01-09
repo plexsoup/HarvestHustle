@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://ResourceCards/ResourceCard.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Portraits/glasses01.png" type="Texture" id=2]
+[ext_resource path="res://Objects/Bicycle.png" type="Texture" id=3]
+[ext_resource path="res://GraphNetwork/HustleGraphNode.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Fonts/SlackeyFont16.tres" type="DynamicFont" id=5]
+
+[node name="Hand" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 111.0
+alignment = 1
+
+[node name="ResourcesLabel" type="Label" parent="HBoxContainer"]
+margin_left = 387.0
+margin_top = 44.0
+margin_right = 524.0
+margin_bottom = 67.0
+custom_fonts/font = ExtResource( 5 )
+text = "My Resources"
+align = 1
+
+[node name="Coder" parent="HBoxContainer" instance=ExtResource( 1 )]
+margin_left = 528.0
+margin_right = 580.0
+margin_bottom = 111.0
+resource_image = ExtResource( 2 )
+resource_name = "coder"
+hustle_graph_node = ExtResource( 4 )
+description = "The coder can establish an automated connection between outputs and inputs, enabling much faster throughput."
+
+[node name="Bicycle" parent="HBoxContainer" instance=ExtResource( 1 )]
+margin_left = 584.0
+margin_right = 636.0
+margin_bottom = 111.0
+resource_image = ExtResource( 3 )
+resource_name = "Bicycle"
+hustle_graph_node = ExtResource( 4 )
+description = "The Bicycle can increase the speed of a manual task-rabbit.
+"

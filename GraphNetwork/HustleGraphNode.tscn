@@ -1,13 +1,17 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://GraphNetwork/HustleGraphNode.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://Textures/clockOver.png" type="Texture" id=2]
+[ext_resource path="res://Textures/clockFill.png" type="Texture" id=3]
+[ext_resource path="res://Textures/clockBack.png" type="Texture" id=4]
+[ext_resource path="res://GraphNetwork/Sockets.tscn" type="PackedScene" id=5]
+[ext_resource path="res://sfx/A440-C4-69-pluck.wav" type="AudioStream" id=6]
+[ext_resource path="res://Textures/WindoBlindIcon.png" type="Texture" id=7]
 
 [node name="HustleGraphNode" type="GraphNode"]
-margin_right = 32.0
-margin_bottom = 30.0
-rect_min_size = Vector2( 150, 150 )
-mouse_filter = 1
+margin_right = 207.0
+margin_bottom = 253.0
+custom_icons/close = ExtResource( 7 )
 title = "HustleNode"
 show_close = true
 resizable = true
@@ -17,55 +21,140 @@ slot/0/left_color = Color( 1, 1, 1, 1 )
 slot/0/right_enabled = false
 slot/0/right_type = 0
 slot/0/right_color = Color( 1, 1, 1, 1 )
-slot/1/left_enabled = true
-slot/1/left_type = 0
-slot/1/left_color = Color( 1, 1, 1, 1 )
-slot/1/right_enabled = true
-slot/1/right_type = 0
-slot/1/right_color = Color( 1, 1, 1, 1 )
 script = ExtResource( 1 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="TopDisplay" type="MarginContainer" parent="."]
 margin_left = 16.0
 margin_top = 24.0
-margin_right = 134.0
-margin_bottom = 124.0
+margin_right = 191.0
+margin_bottom = 206.0
+size_flags_vertical = 0
 
-[node name="StateLabel" type="Label" parent="VBoxContainer"]
-margin_right = 118.0
-margin_bottom = 14.0
-text = "State"
+[node name="Position2D" type="Position2D" parent="TopDisplay"]
+position = Vector2( -17, -63 )
 
-[node name="ResourcePic" type="TextureRect" parent="VBoxContainer"]
-margin_top = 18.0
-margin_right = 118.0
-margin_bottom = 82.0
+[node name="InfoVBox" type="VBoxContainer" parent="TopDisplay"]
+margin_right = 175.0
+margin_bottom = 182.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="TopDisplay/InfoVBox"]
+margin_right = 175.0
+margin_bottom = 54.0
+
+[node name="VBoxContainer" type="HBoxContainer" parent="TopDisplay/InfoVBox/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 168.0
+margin_bottom = 47.0
+
+[node name="InfoButton" type="Button" parent="TopDisplay/InfoVBox/PanelContainer/VBoxContainer"]
+margin_right = 18.0
+margin_bottom = 40.0
+text = "?"
+
+[node name="EnableButton" type="CheckButton" parent="TopDisplay/InfoVBox/PanelContainer/VBoxContainer"]
+margin_left = 22.0
+margin_right = 144.0
+margin_bottom = 40.0
+hint_tooltip = "Disable Production while pressed"
+pressed = true
+text = "Enable"
+
+[node name="PopupInfoDialog" type="AcceptDialog" parent="TopDisplay/InfoVBox"]
+anchor_left = 0.25
+anchor_top = 0.25
+anchor_right = 0.75
+anchor_bottom = 0.75
+margin_top = 165.0
+margin_right = 175.0
+margin_bottom = 223.0
+
+[node name="PopupHbox" type="HBoxContainer" parent="TopDisplay/InfoVBox/PopupInfoDialog"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 254.5
+margin_bottom = 113.0
+
+[node name="ResourcePic2" type="TextureRect" parent="TopDisplay/InfoVBox/PopupInfoDialog/PopupHbox"]
+margin_left = -51.75
+margin_top = -153.0
+margin_right = 123.25
+margin_bottom = -89.0
 rect_min_size = Vector2( 64, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = ExtResource( 2 )
 expand = true
 stretch_mode = 6
 
-[node name="ResourceLabel" type="Label" parent="VBoxContainer"]
-margin_top = 86.0
-margin_right = 118.0
-margin_bottom = 100.0
-text = "Resource"
-align = 1
+[node name="LongDescLabel" type="Label" parent="TopDisplay/InfoVBox/PopupInfoDialog/PopupHbox"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 254.5
+margin_bottom = 84.0
+text = "long_desc"
 
-[node name="Value" type="TextEdit" parent="."]
-margin_left = 16.0
-margin_top = 125.0
-margin_right = 134.0
-margin_bottom = 150.0
-rect_min_size = Vector2( 0, 25 )
+[node name="ResourcePic" type="TextureRect" parent="TopDisplay/InfoVBox"]
+margin_top = 58.0
+margin_right = 175.0
+margin_bottom = 122.0
+rect_min_size = Vector2( 64, 64 )
 size_flags_horizontal = 3
+size_flags_vertical = 3
+expand = true
+stretch_mode = 6
+
+[node name="Sockets" parent="TopDisplay/InfoVBox" instance=ExtResource( 5 )]
+margin_left = 35.0
+margin_top = 126.0
+margin_right = 139.0
+margin_bottom = 158.0
 size_flags_vertical = 0
-text = "val"
 
-[node name="ProductionTimer" type="Timer" parent="."]
+[node name="ProductionTimer" type="Timer" parent="TopDisplay/InfoVBox"]
+one_shot = true
 
+[node name="RestTimer" type="Timer" parent="TopDisplay/InfoVBox"]
+one_shot = true
+
+[node name="Audio" type="Node2D" parent="TopDisplay/InfoVBox"]
+
+[node name="ProductionCompleteNoise" type="AudioStreamPlayer2D" parent="TopDisplay/InfoVBox/Audio"]
+stream = ExtResource( 6 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopDisplay/InfoVBox"]
+margin_top = 162.0
+margin_right = 175.0
+margin_bottom = 182.0
+alignment = 1
+
+[node name="ShortDescLabel" type="Label" parent="TopDisplay/InfoVBox/HBoxContainer"]
+margin_left = 41.0
+margin_top = 3.0
+margin_right = 110.0
+margin_bottom = 17.0
+text = "short_desc"
+
+[node name="ProductionProgressClock" type="TextureProgress" parent="TopDisplay/InfoVBox/HBoxContainer"]
+margin_left = 114.0
+margin_right = 134.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 20, 20 )
+max_value = 1.0
+step = 0.083
+texture_under = ExtResource( 4 )
+texture_over = ExtResource( 2 )
+texture_progress = ExtResource( 3 )
+fill_mode = 4
+nine_patch_stretch = true
+
+[connection signal="close_request" from="." to="." method="_on_HustleGraphNode_close_request"]
 [connection signal="dragged" from="." to="." method="_on_HustleGraphNode_dragged"]
 [connection signal="offset_changed" from="." to="." method="_on_HustleGraphNode_offset_changed"]
 [connection signal="resize_request" from="." to="." method="_on_HustleGraphNode_resize_request"]
+[connection signal="pressed" from="TopDisplay/InfoVBox/PanelContainer/VBoxContainer/InfoButton" to="." method="_on_InfoButton_pressed"]
+[connection signal="toggled" from="TopDisplay/InfoVBox/PanelContainer/VBoxContainer/EnableButton" to="." method="_on_EnableButton_toggled"]
+[connection signal="timeout" from="TopDisplay/InfoVBox/ProductionTimer" to="." method="_on_ProductionTimer_timeout"]
+[connection signal="timeout" from="TopDisplay/InfoVBox/RestTimer" to="." method="_on_RestTimer_timeout"]
