@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://ResourceCards/ResourceCard.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/atmMachine.png" type="Texture" id=2]
 [ext_resource path="res://Production/Commodities/CommoditiesCash.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Production/Commodities/BankDepositIOPort.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Production/Commodities/cash.png" type="Texture" id=5]
 
 [node name="BankDeposits" instance=ExtResource( 1 )]
 resource_image = ExtResource( 2 )
@@ -26,3 +28,7 @@ text = "Bank Deposits"
 resource_texture = ExtResource( 2 )
 
 [node name="Cash" parent="Processing/Inputs" index="0" instance=ExtResource( 3 )]
+
+[node name="BankDeposit" parent="Processing/Outputs" index="0" instance=ExtResource( 4 )]
+product_name = "Cash"
+product_graphic = ExtResource( 5 )

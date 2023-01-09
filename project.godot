@@ -28,7 +28,7 @@ _global_script_class_icons={
 
 config/name="Harvest Hustle"
 run/main_scene="res://Main.tscn"
-config/icon="res://icon.png"
+config/icon="res://icon2.png"
 
 [autoload]
 

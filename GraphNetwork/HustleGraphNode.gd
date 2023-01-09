@@ -151,10 +151,6 @@ func add_dummy_spacer():
 	spacer.rect_min_size = Vector2(5, 10)
 	spacer.rect_size = spacer.rect_min_size
 	add_child(spacer)
-#	var colorRec = ColorRect.new()
-#	colorRec.color = Color.burlywood
-#	colorRec.rect_min_size = Vector2(30, 50)
-#	spacer.add_child(colorRec)
 
 
 func add_slots(newSlots : Array, portType : String):
@@ -175,7 +171,6 @@ func add_slot(newNode, side:String):
 	add_child(newNode) # Important
 	
 	
-	
 	var enable_left : bool = side == "input"
 	var enable_right : bool = side == "output"
 	var type_left = 0
@@ -184,6 +179,16 @@ func add_slot(newNode, side:String):
 	var color_right = Color.green
 	var custom_left = null
 	var custom_right = null
+	
+	if "Bank" in newNode.name:
+		print("Bank Deposits")
+		
+	if newNode.get("port_enabled") != null and newNode.port_enabled == false:
+		enable_left = false
+		enable_right = false
+		if side == "output":
+			connect_output_to_custom_code(newNode)
+	
 #	var small_icon = make_small_icon(newNode.product_icon)
 #	if enable_left and small_icon != null:
 #		custom_left = small_icon # texture for input connector
@@ -272,6 +277,13 @@ func connect_output_to_customer(customerGraphNode):
 	if err != OK:
 		printerr("HustleGraphNode.gd error connecting to customer: ", err)
 	
+func connect_output_to_custom_code(outputNode):
+	var err = connect("product_ready", outputNode, "_on_commodity_received")
+	if err != OK:
+		printerr("HustleGraphNode.gd error connecting to custom output slot: ", err)
+
+
+
 func lightup_output_line_briefly():
 	if output_slots.size() > 0:
 		#set_slot_color_right(output_slot_ID, Color.yellow)

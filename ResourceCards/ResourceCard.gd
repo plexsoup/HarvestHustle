@@ -53,22 +53,23 @@ func _ready():
 	$HustleGraphNode.set_visible(false)
 
 	setup_graph_node()
-
+	custom_startup_behaviour()
+		
 	#delayed_ready(0.25) # let parents initialize first
 
 
-func delayed_ready(timeToWait):
-	var timer = get_tree().create_timer(timeToWait)
-	yield(timer, "timeout")
-	pass
-#	var err = connect("resource_dropped", Global.hustle_graph, "_on_resource_dropped")
-#	if err != OK:
-#		printerr(self.name + " ResourceCard.gd")
-#		printerr(err)
-
-	if resource_image != null:
-		$ResourceImage.texture = resource_image
-		$ResourceImage.show()
+#func delayed_ready(timeToWait):
+#	var timer = get_tree().create_timer(timeToWait)
+#	yield(timer, "timeout")
+#	pass
+##	var err = connect("resource_dropped", Global.hustle_graph, "_on_resource_dropped")
+##	if err != OK:
+##		printerr(self.name + " ResourceCard.gd")
+##		printerr(err)
+#
+#	if resource_image != null:
+#		$ResourceImage.texture = resource_image
+#		$ResourceImage.show()
 
 func setup_graph_node():
 	var graphNode = $HustleGraphNode
@@ -95,7 +96,7 @@ func setup_graph_node():
 	graphNode.short_desc = short_desc
 	graphNode.long_desc = long_desc
 	
-	custom_startup_behaviour()
+
 	
 	
 func custom_startup_behaviour():
