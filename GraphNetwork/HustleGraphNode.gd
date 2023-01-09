@@ -41,9 +41,16 @@ var requirements = [] # list of Commodity names required to produce product
 var outputs = [] # list of Commodity names produced by this node
 var output_slots = []
 
+var connected_customers = [] # list of nodes that are connected to this node's output slots
+var connected_suppliers = [] # list of nodes that are connected to this node's input slots
+var custom_outputs = [] # list of custom output slots currently connected
 
 var production_delay setget set_production_delay
 var rest_delay setget set_rest_delay
+var default_rest_delay
+var default_production_delay
+
+
 var burst_size : int
 var produced_this_burst : int = 0
 
@@ -52,6 +59,9 @@ var pitch_scale = [1.0, 1.122, 1.189, 1.335, 1.498, 1.682, 1.89]
 var pitch_sequence = [] # generate a string of 32 notes we can loop through
 var current_pitch_selection_index : int = 0
 var current_pitch_selection : int = 0
+
+var pitch_factor = 1.0
+var tempo_factor = 1.0
 
 
 var short_desc setget set_short_desc
@@ -64,7 +74,7 @@ signal product_ready(prod)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	
+	$TopDisplay/InfoVBox/Sockets.init(self)
 
 	set_resizable(true)
 	if resource_texture != null:
@@ -117,9 +127,13 @@ func set_long_desc(newLongDesc : String):
 		find_node("LongDescLabel").text = newLongDesc
 
 func set_production_delay(newDelay):
+	if default_production_delay == null:
+		default_production_delay = newDelay
 	$TopDisplay/InfoVBox/ProductionTimer.set_wait_time(newDelay)
 
 func set_rest_delay(newDelay):
+	if default_rest_delay == null:
+		default_rest_delay = newDelay
 	$TopDisplay/InfoVBox/RestTimer.set_wait_time(newDelay)
 
 func set_tone(newTone):
@@ -162,9 +176,9 @@ func add_slots(newSlots : Array, portType : String):
 func add_slot(newNode, side:String):
 	# the newNode to add should inherit from Product.tscn
 	if side == "input":
-		requirements.append(newNode.name)
+		requirements.append(newNode.product_name)
 	else:
-		outputs.append(newNode.name)
+		outputs.append(newNode.product_name)
 		output_slots.append(newNode)
 		
 
@@ -274,15 +288,22 @@ func _on_HustleGraphNode_offset_changed():
 
 func connect_output_to_customer(customerGraphNode):
 	var err = connect("product_ready", customerGraphNode, "_on_commodity_received")
-	if err != OK:
+	if err == null or err == OK:
+		connected_customers.append(customerGraphNode)
+	else:
 		printerr("HustleGraphNode.gd error connecting to customer: ", err)
 	
 func connect_output_to_custom_code(outputNode):
 	var err = connect("product_ready", outputNode, "_on_commodity_received")
-	if err != OK:
+	if err == null or err == OK:
+		custom_outputs.append(outputNode)
+	else:
 		printerr("HustleGraphNode.gd error connecting to custom output slot: ", err)
-
-
+	
+func disconnect_output_from_customer(customerGraphNode):
+	disconnect("product_ready", customerGraphNode, "_on_commodity_received")
+	connected_customers.erase(customerGraphNode)
+	
 
 func lightup_output_line_briefly():
 	if output_slots.size() > 0:
@@ -315,14 +336,48 @@ func get_input_slot(commodityName):
 				return child.get_position_in_parent()
 
 	
+
+func spawn_product_sprite():
+	# spawn a sprite with a product icon
+	var productSprite = load("res://Objects/GroundLitter/ProductLitter.tscn").instance()
+	productSprite.get_node("Sprite").texture = product.product_icon
+	add_child(productSprite)	
+	productSprite.visible = true
+	var offset = 35
+	var randOffset = Vector2(rand_range(-offset, offset), rand_range(-offset, offset))
 	
+	productSprite.position = rect_size + randOffset
+	productSprite.product_name = output_slots[0].product_name
+	#productSprite.scale = Vector2(1, 1) * 0.1
+	#productSprite.rotation = 0
+	#productSprite.z_index = 1
+	#productSprite.modulate = Color.white
+
 
 func spawn_product():
-	
+	# send a signal to connected customers
+	# if there are no customers, send a signal to the custom output port
+	# if there is no custom output port, spawn a sprite with a product icon
+
 	produce_sound()
-	lightup_output_line_briefly()
-	
-	emit_signal("product_ready", product_name)
+	resume_production_timers()
+
+	if connected_customers.size() > 0: # graphnode is connected to a customer.
+		# send a signal to the customer
+		#var customer = connected_customers[0]
+		#customer._on_commodity_received(product_name)
+		emit_signal("product_ready", product_name)
+		lightup_output_line_briefly()
+	elif custom_outputs.size() > 0: #graphnode is connected to a custom output port.
+		# send a signal to the custom output port
+		#var customOutput = custom_outputs[0]
+		#customOutput._on_commodity_received(product_name)
+		emit_signal("product_ready", product_name)
+	else: #graphnode is connected to nothing. Spawn a sprite.
+		spawn_product_sprite()
+
+
+func resume_production_timers():
 	$TopDisplay/InfoVBox/ProductionTimer.stop()
 	produced_this_burst += 1
 	if produced_this_burst >= burst_size:
@@ -330,7 +385,14 @@ func spawn_product():
 		produced_this_burst = 0
 	else:
 		$TopDisplay/InfoVBox/ProductionTimer.start()
+
+
+func adjust_pitch(dir):
+	pitch_factor += 0.5 * dir
 	
+func adjust_tempo(dir):
+	tempo_factor += 0.5 * dir
+
 func produce_sound():
 	if $TopDisplay/InfoVBox.visible:
 		#var soundSystem = Global.audio_manager
@@ -341,7 +403,7 @@ func produce_sound():
 		# loop if you hit the end
 		current_pitch_selection_index = current_pitch_selection_index % (pitch_sequence.size())
 		
-		var current_pitch_scale = pitch_scale[pitch_sequence[current_pitch_selection_index]]
+		var current_pitch_scale = pitch_scale[pitch_sequence[current_pitch_selection_index]] * pitch_factor
 		
 		audioPlayer.set_pitch_scale(current_pitch_scale)
 		
@@ -379,6 +441,8 @@ func _on_RestTimer_timeout():
 	if State == States.READY:
 		$TopDisplay/InfoVBox/ProductionTimer.start()
 		$TopDisplay/InfoVBox/RestTimer.stop()
+		set_rest_delay(default_rest_delay * 1/tempo_factor)
+		set_production_delay(default_production_delay * 1/tempo_factor)
 
 
 

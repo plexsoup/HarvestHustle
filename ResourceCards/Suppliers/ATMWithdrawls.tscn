@@ -55,8 +55,8 @@ price = 0
 short_desc = "timed money extraction"
 long_desc = "Why do I always find myself returning to the ATM, way before I think I ought to? Watch out. This will drain your cash.
 "
-burst_size = 8
-rest_beats = 0.0
+burst_size = 7
+rest_beats = 0.5
 tone = ExtResource( 5 )
 
 [node name="ResourceImage" parent="." index="1"]

@@ -9,24 +9,19 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Node",
-"class": "CardInfo",
-"language": "GDScript",
-"path": "res://ResourceCards/CardInfo.gd"
-}, {
 "base": "Sprite",
 "class": "DraggableResourceSprite",
 "language": "GDScript",
 "path": "res://GraphNetwork/DraggableResourceSprite.gd"
 } ]
 _global_script_class_icons={
-"CardInfo": "",
 "DraggableResourceSprite": ""
 }
 
 [application]
 
 config/name="Harvest Hustle"
+config/description="A musical toy based on side-hustles in pursuit of your best life."
 run/main_scene="res://Main.tscn"
 config/icon="res://icon2.png"
 

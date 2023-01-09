@@ -9,6 +9,9 @@
 resource_image = ExtResource( 2 )
 resource_name = "Supermarket"
 price = 0
+short_desc = "eggs for cash"
+long_desc = "Super M Market is your favorite marketplace, and not just because the security is lax. You have fond memories of stealing grapes when you were young.
+"
 burst_size = 1
 rest_beats = 3.5
 

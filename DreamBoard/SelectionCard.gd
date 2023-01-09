@@ -3,8 +3,8 @@ extends VBoxContainer
 
 export var images_location = "res://Portraits/"
 
-var images = []
-var currentImage = 0
+var image_texture_rects = []
+var currentImageIdx = 0
 var imagePath : String
 var imageNode : TextureRect
 
@@ -15,16 +15,19 @@ export var title = ""
 func _ready():
 	get_images()
 	$NameLabel.text = title
-	imageNode = find_node("Image")
+	imageNode = $HBoxContainer/Image
 	reroll()
 
 func reroll():
-	advance_image(randi()%images.size())
+	advance_image(randi()%image_texture_rects.size())
 
 
 
 func get_images():
-	images = dir_contents(images_location)
+	image_texture_rects = $ImageTabs.get_children()
+	
+	#images = dir_contents(images_location)
+	
 
 	
 func dir_contents(path):
@@ -52,15 +55,14 @@ func dir_contents(path):
 
 
 func advance_image(direction : int):
-	currentImage += direction
+	currentImageIdx += direction
 	
-	currentImage = currentImage % images.size()
+	currentImageIdx = currentImageIdx % image_texture_rects.size()
 #	if currentImage < 0:
 #		currentImage = images.size() -1
 #	elif currentImage == images.size():
 #		currentImage = 0
-	imageNode.texture = load(images[currentImage])
-	imagePath = images[currentImage]
+	imageNode.texture = image_texture_rects[currentImageIdx].texture
 
 
 func _on_LeftButton_pressed():

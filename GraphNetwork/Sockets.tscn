@@ -1,38 +1,75 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://Textures/EmptySocket.png" type="Texture" id=1]
+[ext_resource path="res://Textures/fwdSocket.png" type="Texture" id=1]
+[ext_resource path="res://Textures/UPSocket.png" type="Texture" id=2]
+[ext_resource path="res://Textures/fbackSocket.png" type="Texture" id=3]
+[ext_resource path="res://Textures/DOWNSocket.png" type="Texture" id=4]
+[ext_resource path="res://Textures/fwdSocketLit.png" type="Texture" id=5]
+[ext_resource path="res://Textures/downSocketLit.png" type="Texture" id=6]
+[ext_resource path="res://Textures/fbackSocketLit.png" type="Texture" id=7]
+[ext_resource path="res://Textures/upSocketLit.png" type="Texture" id=8]
+[ext_resource path="res://GraphNetwork/AudioSockets.gd" type="Script" id=9]
 
 [node name="Sockets" type="GridContainer"]
 margin_left = 412.0
 margin_top = 302.0
 margin_right = 612.0
 margin_bottom = 366.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 6
 size_flags_vertical = 2
-columns = 3
+columns = 4
+script = ExtResource( 9 )
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="SlowDown" type="TextureButton" parent="."]
 margin_right = 32.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 32, 32 )
-texture = ExtResource( 1 )
+toggle_mode = true
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 7 )
+texture_hover = ExtResource( 7 )
 expand = true
 stretch_mode = 6
 
-[node name="TextureRect2" type="TextureRect" parent="."]
+[node name="PitchDown" type="TextureButton" parent="."]
 margin_left = 36.0
 margin_right = 68.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 32, 32 )
-texture = ExtResource( 1 )
+toggle_mode = true
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 6 )
+texture_hover = ExtResource( 6 )
 expand = true
 stretch_mode = 6
 
-[node name="TextureRect3" type="TextureRect" parent="."]
+[node name="PitchUp" type="TextureButton" parent="."]
 margin_left = 72.0
 margin_right = 104.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 32, 32 )
-texture = ExtResource( 1 )
+toggle_mode = true
+texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 8 )
+texture_hover = ExtResource( 8 )
 expand = true
 stretch_mode = 6
+
+[node name="SpeedUp" type="TextureButton" parent="."]
+margin_left = 108.0
+margin_right = 140.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+toggle_mode = true
+texture_normal = ExtResource( 1 )
+texture_pressed = ExtResource( 5 )
+texture_hover = ExtResource( 5 )
+expand = true
+stretch_mode = 6
+
+[connection signal="toggled" from="SlowDown" to="." method="_on_SlowDown_toggled"]
+[connection signal="toggled" from="PitchDown" to="." method="_on_PitchDown_toggled"]
+[connection signal="toggled" from="PitchUp" to="." method="_on_PitchUp_toggled"]
+[connection signal="toggled" from="SpeedUp" to="." method="_on_SpeedUp_toggled"]

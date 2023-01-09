@@ -36,13 +36,28 @@ func spawn_product(_product : MarginContainer, _location):
 	# let the nodes signal each other for gods sake
 
 
+func spawn_popup_number(value):
+	var popupText = load("res://GraphNetwork/PopupText.tscn").instance()
+	popupText.set_text(str(value))
+	popupText.position = get_local_mouse_position()
+	add_child(popupText)
+	if value < 0:
+		popupText.set_modulate(Color.brown)
+		popupText.popdown()
+	else:
+		popupText.set_modulate(Color.green)
+		popupText.popup()
+	
+
 func _on_HustleGraph_connection_request(from, from_slot, to, to_slot):
-	print("From: " + from + ", " + str(from_slot))
-	print("To: " + to + ", " + str(to_slot))
+	#print("From: " + from + ", " + str(from_slot))
+	#print("To: " + to + ", " + str(to_slot))
 	
 	var fromGraphNode = get_node(from)
 	var toGraphNode = get_node(to)
 	fromGraphNode.connect_output_to_customer(toGraphNode)
+	Global.player.cash -= 50
+	spawn_popup_number(-50)
 	
 	#fromGraphNode.connect("product_ready", toGraphNode, "_on_commodity_received")
 	
@@ -53,6 +68,11 @@ func _on_HustleGraph_connection_request(from, from_slot, to, to_slot):
 
 func _on_HustleGraph_disconnection_request(from, from_slot, to, to_slot):
 	disconnect_node(from, from_slot, to, to_slot)
+	var fromGraphNode = get_node(from)
+	var toGraphNode = get_node(to)
+	fromGraphNode.disconnect_output_from_customer(toGraphNode)
+
+
 
 func _on_resource_dropped(graphNode : GraphNode):
 	if graphNode == null:
