@@ -6,6 +6,7 @@ var spawner
 var stage_manager
 var hustle_graph
 var audio_manager
+var card_database
 
 
 var bpm : float = 75.0

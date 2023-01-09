@@ -41,6 +41,9 @@ var requirements = [] # list of Commodity names required to produce product
 var outputs = [] # list of Commodity names produced by this node
 var output_slots = []
 
+var connected_customers = [] # list of nodes that are connected to this node's output slots
+var connected_suppliers = [] # list of nodes that are connected to this node's input slots
+var custom_outputs = [] # list of custom output slots currently connected
 
 var production_delay setget set_production_delay
 var rest_delay setget set_rest_delay
@@ -162,9 +165,9 @@ func add_slots(newSlots : Array, portType : String):
 func add_slot(newNode, side:String):
 	# the newNode to add should inherit from Product.tscn
 	if side == "input":
-		requirements.append(newNode.name)
+		requirements.append(newNode.product_name)
 	else:
-		outputs.append(newNode.name)
+		outputs.append(newNode.product_name)
 		output_slots.append(newNode)
 		
 
@@ -274,15 +277,22 @@ func _on_HustleGraphNode_offset_changed():
 
 func connect_output_to_customer(customerGraphNode):
 	var err = connect("product_ready", customerGraphNode, "_on_commodity_received")
-	if err != OK:
+	if err == null or err == OK:
+		connected_customers.append(customerGraphNode)
+	else:
 		printerr("HustleGraphNode.gd error connecting to customer: ", err)
 	
 func connect_output_to_custom_code(outputNode):
 	var err = connect("product_ready", outputNode, "_on_commodity_received")
-	if err != OK:
+	if err == null or err == OK:
+		custom_outputs.append(outputNode)
+	else:
 		printerr("HustleGraphNode.gd error connecting to custom output slot: ", err)
-
-
+	
+func disconnect_output_from_customer(customerGraphNode):
+	disconnect("product_ready", customerGraphNode, "_on_commodity_received")
+	connected_customers.erase(customerGraphNode)
+	
 
 func lightup_output_line_briefly():
 	if output_slots.size() > 0:
@@ -315,14 +325,48 @@ func get_input_slot(commodityName):
 				return child.get_position_in_parent()
 
 	
+
+func spawn_product_sprite():
+	# spawn a sprite with a product icon
+	var productSprite = load("res://Objects/GroundLitter/ProductLitter.tscn").instance()
+	productSprite.get_node("Sprite").texture = product.product_icon
+	add_child(productSprite)	
+	productSprite.visible = true
+	var offset = 35
+	var randOffset = Vector2(rand_range(-offset, offset), rand_range(-offset, offset))
 	
+	productSprite.position = rect_size + randOffset
+	productSprite.product_name = output_slots[0].product_name
+	#productSprite.scale = Vector2(1, 1) * 0.1
+	#productSprite.rotation = 0
+	#productSprite.z_index = 1
+	#productSprite.modulate = Color.white
+
 
 func spawn_product():
-	
+	# send a signal to connected customers
+	# if there are no customers, send a signal to the custom output port
+	# if there is no custom output port, spawn a sprite with a product icon
+
 	produce_sound()
-	lightup_output_line_briefly()
-	
-	emit_signal("product_ready", product_name)
+	resume_production_timers()
+
+	if connected_customers.size() > 0: # graphnode is connected to a customer.
+		# send a signal to the customer
+		#var customer = connected_customers[0]
+		#customer._on_commodity_received(product_name)
+		emit_signal("product_ready", product_name)
+		lightup_output_line_briefly()
+	elif custom_outputs.size() > 0: #graphnode is connected to a custom output port.
+		# send a signal to the custom output port
+		#var customOutput = custom_outputs[0]
+		#customOutput._on_commodity_received(product_name)
+		emit_signal("product_ready", product_name)
+	else: #graphnode is connected to nothing. Spawn a sprite.
+		spawn_product_sprite()
+
+
+func resume_production_timers():
 	$TopDisplay/InfoVBox/ProductionTimer.stop()
 	produced_this_burst += 1
 	if produced_this_burst >= burst_size:

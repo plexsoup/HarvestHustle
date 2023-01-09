@@ -9,18 +9,12 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Node",
-"class": "CardInfo",
-"language": "GDScript",
-"path": "res://ResourceCards/CardInfo.gd"
-}, {
 "base": "Sprite",
 "class": "DraggableResourceSprite",
 "language": "GDScript",
 "path": "res://GraphNetwork/DraggableResourceSprite.gd"
 } ]
 _global_script_class_icons={
-"CardInfo": "",
 "DraggableResourceSprite": ""
 }
 

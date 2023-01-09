@@ -47,7 +47,9 @@ func _ready():
 
 func subscribe_to_pulse_beat(listenerNode, callbackFunction):
 	# nodes which need precise timing for audio events can subscribe to the audio_manager to receive timed signals
-	connect("pulse_beat", listenerNode, callbackFunction)
+	var err = connect("pulse_beat", listenerNode, callbackFunction)
+	if err:
+		printerr("problem in AudioSystem, subscribe_to_pulses_beat() ", err)
 
 func unsubscribe(uninterestedListenerNode, callbackFunction):
 	if is_connected("pulse_beat", uninterestedListenerNode, callbackFunction):
@@ -55,7 +57,7 @@ func unsubscribe(uninterestedListenerNode, callbackFunction):
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 
 	var bpm = Global.bpm
 	var beat_duration = 60 / bpm
