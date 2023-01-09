@@ -5,6 +5,8 @@ var player
 var spawner
 var stage_manager
 var hustle_graph
+var audio_manager
+
 
 var bpm : float = 75.0
 var spb : float = 1.0/(bpm/60.0)
@@ -16,3 +18,7 @@ var objective_image_path : String
 func _ready():
 	pass # Replace with function body.
 
+
+
+
+	

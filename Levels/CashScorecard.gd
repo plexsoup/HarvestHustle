@@ -12,6 +12,6 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if Global.player and Global.player.get("cash"):
 		text = str(Global.player.cash)

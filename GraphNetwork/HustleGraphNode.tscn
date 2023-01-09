@@ -27,23 +27,41 @@ script = ExtResource( 1 )
 margin_left = 16.0
 margin_top = 24.0
 margin_right = 191.0
-margin_bottom = 148.0
+margin_bottom = 206.0
 size_flags_vertical = 0
 
 [node name="Position2D" type="Position2D" parent="TopDisplay"]
-position = Vector2( -28, -21 )
-
-[node name="InfoButton" type="Button" parent="TopDisplay/Position2D"]
-margin_right = 12.0
-margin_bottom = 20.0
-text = "?"
+position = Vector2( -17, -63 )
 
 [node name="InfoVBox" type="VBoxContainer" parent="TopDisplay"]
 margin_right = 175.0
-margin_bottom = 124.0
+margin_bottom = 182.0
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="TopDisplay/InfoVBox"]
+margin_right = 175.0
+margin_bottom = 54.0
+
+[node name="VBoxContainer" type="HBoxContainer" parent="TopDisplay/InfoVBox/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 168.0
+margin_bottom = 47.0
+
+[node name="InfoButton" type="Button" parent="TopDisplay/InfoVBox/PanelContainer/VBoxContainer"]
+margin_right = 18.0
+margin_bottom = 40.0
+text = "?"
+
+[node name="EnableButton" type="CheckButton" parent="TopDisplay/InfoVBox/PanelContainer/VBoxContainer"]
+margin_left = 22.0
+margin_right = 144.0
+margin_bottom = 40.0
+hint_tooltip = "Disable Production while pressed"
+pressed = true
+text = "Enable"
 
 [node name="PopupInfoDialog" type="AcceptDialog" parent="TopDisplay/InfoVBox"]
 anchor_left = 0.25
@@ -58,7 +76,7 @@ margin_bottom = 223.0
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 254.5
-margin_bottom = 84.0
+margin_bottom = 113.0
 
 [node name="ResourcePic2" type="TextureRect" parent="TopDisplay/InfoVBox/PopupInfoDialog/PopupHbox"]
 margin_left = -51.75
@@ -79,8 +97,9 @@ margin_bottom = 84.0
 text = "long_desc"
 
 [node name="ResourcePic" type="TextureRect" parent="TopDisplay/InfoVBox"]
+margin_top = 58.0
 margin_right = 175.0
-margin_bottom = 64.0
+margin_bottom = 122.0
 rect_min_size = Vector2( 64, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -89,9 +108,9 @@ stretch_mode = 6
 
 [node name="Sockets" parent="TopDisplay/InfoVBox" instance=ExtResource( 5 )]
 margin_left = 35.0
-margin_top = 68.0
+margin_top = 126.0
 margin_right = 139.0
-margin_bottom = 100.0
+margin_bottom = 158.0
 size_flags_vertical = 0
 
 [node name="ProductionTimer" type="Timer" parent="TopDisplay/InfoVBox"]
@@ -100,13 +119,15 @@ one_shot = true
 [node name="RestTimer" type="Timer" parent="TopDisplay/InfoVBox"]
 one_shot = true
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="TopDisplay/InfoVBox"]
+[node name="Audio" type="Node2D" parent="TopDisplay/InfoVBox"]
+
+[node name="ProductionCompleteNoise" type="AudioStreamPlayer2D" parent="TopDisplay/InfoVBox/Audio"]
 stream = ExtResource( 6 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TopDisplay/InfoVBox"]
-margin_top = 104.0
+margin_top = 162.0
 margin_right = 175.0
-margin_bottom = 124.0
+margin_bottom = 182.0
 alignment = 1
 
 [node name="ShortDescLabel" type="Label" parent="TopDisplay/InfoVBox/HBoxContainer"]
@@ -133,7 +154,7 @@ nine_patch_stretch = true
 [connection signal="dragged" from="." to="." method="_on_HustleGraphNode_dragged"]
 [connection signal="offset_changed" from="." to="." method="_on_HustleGraphNode_offset_changed"]
 [connection signal="resize_request" from="." to="." method="_on_HustleGraphNode_resize_request"]
-[connection signal="pressed" from="TopDisplay/Position2D/InfoButton" to="." method="_on_InfoButton_pressed"]
-[connection signal="toggled" from="TopDisplay/Position2D/InfoButton" to="." method="_on_InfoButton_toggled"]
+[connection signal="pressed" from="TopDisplay/InfoVBox/PanelContainer/VBoxContainer/InfoButton" to="." method="_on_InfoButton_pressed"]
+[connection signal="toggled" from="TopDisplay/InfoVBox/PanelContainer/VBoxContainer/EnableButton" to="." method="_on_EnableButton_toggled"]
 [connection signal="timeout" from="TopDisplay/InfoVBox/ProductionTimer" to="." method="_on_ProductionTimer_timeout"]
 [connection signal="timeout" from="TopDisplay/InfoVBox/RestTimer" to="." method="_on_RestTimer_timeout"]

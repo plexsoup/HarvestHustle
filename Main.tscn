@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://DesignNotes.gd" type="Script" id=1]
 [ext_resource path="res://Main.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Levels/Spawner.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ResourceCards/CardDatabase.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Todo.gd" type="Script" id=6]
+[ext_resource path="res://AudioSystem.gd" type="Script" id=7]
 
 [node name="Main" type="Control"]
 anchor_right = 1.0
@@ -28,3 +29,6 @@ anchor_bottom = 1.0
 script = ExtResource( 3 )
 
 [node name="CardDatabase" parent="." instance=ExtResource( 5 )]
+
+[node name="AudioSystem" type="Node" parent="."]
+script = ExtResource( 7 )

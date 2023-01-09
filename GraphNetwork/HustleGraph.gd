@@ -31,7 +31,7 @@ func spawn_node(graphNode : GraphNode):
 	graphNode.activate()
 
 
-func spawn_product(product : MarginContainer, location):
+func spawn_product(_product : MarginContainer, _location):
 	pass
 	# let the nodes signal each other for gods sake
 
@@ -42,7 +42,9 @@ func _on_HustleGraph_connection_request(from, from_slot, to, to_slot):
 	
 	var fromGraphNode = get_node(from)
 	var toGraphNode = get_node(to)
-	fromGraphNode.connect("product_ready", toGraphNode, "_on_commodity_received")
+	fromGraphNode.connect_output_to_customer(toGraphNode)
+	
+	#fromGraphNode.connect("product_ready", toGraphNode, "_on_commodity_received")
 	
 	
 	var err = connect_node(from, from_slot, to, to_slot)
@@ -58,7 +60,7 @@ func _on_resource_dropped(graphNode : GraphNode):
 	else:
 		spawn_node(graphNode)
 	
-func _on_product_spawned(graphNode, product : MarginContainer):
+func _on_product_spawned(_graphNode, product : MarginContainer):
 	spawn_product(product, scroll_offset + get_local_mouse_position())
 
 	# send a signal to the graphNode to tell it a new product has been spawned

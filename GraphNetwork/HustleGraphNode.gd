@@ -26,7 +26,7 @@ extends GraphNode
 
 
 
-enum States { READY, MOVING, RESIZING, DISABLED }
+enum States { INITIALIZING, WAITING_FOR_PULSE, READY, MOVING, RESIZING, DISABLED }
 var State = States.READY
 
 var buffer_size = 10
@@ -46,12 +46,17 @@ var burst_size : int
 var produced_this_burst : int = 0
 
 var tone : AudioStream setget set_tone
+var pitch_scale = [1.0, 1.122, 1.189, 1.335, 1.498, 1.682, 1.89]
+var pitch_sequence = [] # generate a string of 32 notes we can loop through
+var current_pitch_selection_index : int = 0
+var current_pitch_selection : int = 0
 
 
 var short_desc setget set_short_desc
 var long_desc setget set_long_desc
 
 var prev_rect_size # for hiding the portrait picture
+
 
 signal product_ready(prod)
 
@@ -65,14 +70,38 @@ func _ready():
 		$TopDisplay/InfoVBox/PopupInfoDialog/PopupHbox/ResourcePic2.texture = resource_texture
 	State = States.DISABLED
 
+	generate_pitch_sequence()
+
 # The graph doesn't care about our product signals
 #	var err=connect("product_ready", Global.hustle_graph, "spawn_product")
 #	if err != OK:
 #		print("Error connecting to hustle_graph: ", err)
 
+func generate_pitch_sequence():
+	var length = ( randi()%8 + 1 ) * 4
+	var last_index_value = 0
+	var trendDirection = 1
+	
+	for i in range(length):
+		pitch_sequence.push_back(last_index_value)
+		last_index_value += ( randi()%3 - 1 ) * trendDirection
+		last_index_value = last_index_value % pitch_sequence.size()
+
+		if i%4 == 0:
+			if randf() < 0.33:
+				trendDirection *= -1
+
 
 func activate():
-	State = States.READY
+	if requirements.size() == 0:
+		
+		# connect to the pulse from audio_manager
+		Global.audio_manager.subscribe_to_pulse_beat(self, "_on_pulse_beat")
+		State = States.WAITING_FOR_PULSE
+
+	else:
+		State = States.READY
+		#$TopDisplay/InfoVBox/RestTimer.start()
 
 
 func set_short_desc(newShortDesc):
@@ -92,7 +121,7 @@ func set_rest_delay(newDelay):
 	$TopDisplay/InfoVBox/RestTimer.set_wait_time(newDelay)
 
 func set_tone(newTone):
-	$TopDisplay/InfoVBox/AudioStreamPlayer2D.stream = newTone
+	$TopDisplay/InfoVBox/Audio/ProductionCompleteNoise.stream = newTone
 	tone = newTone
 
 
@@ -191,10 +220,18 @@ func _process(_delta):
 		return
 		
 	if State == States.RESIZING:
-		rect_size = get_local_mouse_position()
-		if Input.is_action_pressed("resize_graphnode") == false:
-			State = States.READY
+		resize_graph_node()
+
+	update_production_timer()
+
+
+func resize_graph_node():
+	rect_size = get_local_mouse_position()
+	if Input.is_action_pressed("resize_graphnode") == false:
+		State = States.READY
 	
+	
+func update_production_timer():
 	var prodTimer = $TopDisplay/InfoVBox/ProductionTimer
 	var prodClock = $TopDisplay/InfoVBox/HBoxContainer/ProductionProgressClock
 	if not prodTimer.is_stopped():
@@ -225,7 +262,17 @@ func _on_HustleGraphNode_offset_changed():
 	State = States.MOVING
 
 
+func connect_output_to_customer(customerGraphNode):
+	var err = connect("product_ready", customerGraphNode, "_on_commodity_received")
+	if err != OK:
+		printerr("HustleGraphNode.gd error connecting to customer: ", err)
+	
+
 func spawn_product():
+	
+	produce_sound()
+	
+	
 	emit_signal("product_ready", product)
 	$TopDisplay/InfoVBox/ProductionTimer.stop()
 	produced_this_burst += 1
@@ -235,13 +282,27 @@ func spawn_product():
 	else:
 		$TopDisplay/InfoVBox/ProductionTimer.start()
 	
-	$TopDisplay/InfoVBox/AudioStreamPlayer2D.play()
+func produce_sound():
+	if $TopDisplay/InfoVBox.visible:
+		var soundSystem = Global.audio_manager
+		var audioPlayer = $TopDisplay/InfoVBox/Audio/ProductionCompleteNoise
+
+		current_pitch_selection_index += 1
+
+		# loop if you hit the end
+		current_pitch_selection_index = current_pitch_selection_index % (pitch_sequence.size())
 		
+		var current_pitch_scale = pitch_scale[pitch_sequence[current_pitch_selection_index]]
+		
+		audioPlayer.set_pitch_scale(current_pitch_scale)
+		
+		audioPlayer.play()
+
 
 func requirements_met():
 	if requirements.size() == 0:
 		# if the output is for "cash": deduct money from Global.player.cash
-		if product_name == "cash":
+		if product_name.to_lower() == "cash":
 			Global.player.cash -= 1
 
 		return true
@@ -255,27 +316,21 @@ func _on_ProductionTimer_timeout():
 	if requirements_met():
 		spawn_product()
 	
-func get_commodity_count(commodityName):
+func get_commodity_count(commodityName : String):
 	return buffer.count(commodityName)
 	
-func _on_commodity_received(commodityName):
+func _on_commodity_received(commodityObj):
+	print(self.title + " received " + commodityObj.product_name )
 	if buffer.size() < buffer_size:
-		buffer.push_back(commodityName)
+		buffer.push_back(commodityObj.product_name )
 
 
 
 func _on_RestTimer_timeout():
-	$TopDisplay/InfoVBox/ProductionTimer.start()
-	$TopDisplay/InfoVBox/RestTimer.stop()
+	if State == States.READY:
+		$TopDisplay/InfoVBox/ProductionTimer.start()
+		$TopDisplay/InfoVBox/RestTimer.stop()
 
-
-#func _on_InfoButton_toggled(button_pressed):
-#	find_node("PopupInfoDialog").popup()
-#
-#
-#func _on_PopupInfoDialog_popup_hide():
-#	$TopDisplay/InfoVBox/Position2D/InfoButton.pressed = false
-#
 
 
 func _on_InfoButton_pressed():
@@ -304,5 +359,18 @@ func _on_HustleGraphNode_close_request():
 		resizable = true
 	
 	
+func _on_pulse_beat():
+	if State == States.WAITING_FOR_PULSE:
+		$TopDisplay/InfoVBox/RestTimer.start()
+		State = States.READY
+		Global.audio_manager.unsubscribe(self, "_on_pulse_beat")
+
+
+func _on_EnableButton_toggled(button_pressed):
+	if !button_pressed:
+		State = States.DISABLED
+	else:
+		State = States.WAITING_FOR_PULSE
+		Global.audio_manager.subscribe_to_pulse_beat(self, "_on_pulse_beat")
+
 	
-	pass # Replace with function body.
