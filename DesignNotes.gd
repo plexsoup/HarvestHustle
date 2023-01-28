@@ -22,6 +22,7 @@ Core Game Loop:
 	- automation game (factorio, factorytown)
 	- Zachtronics style node connection game (shenzhen, etc.)
 	- idle game with powerups (learn to fly, hayday)
+	- (basically Stacklands)
 	
 	Scout authentic looking people
 	Spot and fire lazy people quickly
@@ -42,7 +43,7 @@ Core Game Loop:
 		- prevent runaway costs 
 		- defend against bugs? 
 		- fire lazy people 
-		
+		- organize the map
 
 Remember to make it Juicy and over the top
 

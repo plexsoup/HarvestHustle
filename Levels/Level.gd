@@ -9,6 +9,7 @@ func _ready():
 	init(Global.portrait_image, Global.objective_image)
 	Global.audio_manager.subscribe_to_pulse_beat(self, "_on_beat_pulse")
 
+
 func init(portraitImage : Texture, objectiveImage : Texture):
 	# later on we can make a character class and an objective class. They can contain textures as properties
 	$VBoxContainer/Body/Objective/PortraitTex.texture = portraitImage

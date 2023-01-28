@@ -64,9 +64,18 @@ func advance_image(direction : int):
 #		currentImage = 0
 	imageNode.texture = image_texture_rects[currentImageIdx].texture
 
+func make_noise(noiseNode):
+	# noises should come from tempNoise.tscn
+	$ButtonNoises.hover()
 
 func _on_LeftButton_pressed():
 	advance_image(1)
+	$ButtonNoises.click()
 
 func _on_RightButton_pressed():
 	advance_image(-1)
+	$ButtonNoises.click()
+
+
+func _on_Button_hover():
+	make_noise($Audio/HoverNoise)

@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/PickupCard.wav-d425cf8d09bc79f5534be9f1e3022b26.sample"
+
+[deps]
+
+source_file="res://GraphNetwork/HustleGraphNodes/PickupCard.wav"
+dest_files=[ "res://.import/PickupCard.wav-d425cf8d09bc79f5534be9f1e3022b26.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

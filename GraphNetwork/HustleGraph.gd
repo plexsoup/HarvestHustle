@@ -49,6 +49,22 @@ func spawn_popup_number(value):
 		popupText.popup()
 	
 
+func zoom_map(zoomSpeed : float):
+	var tween = get_tree().create_tween()
+	tween.tween_property(self, "zoom", zoom+zoomSpeed, 0.3)
+
+
+
+func _unhandled_input(_event):
+	var zoomSpeed = 0.25
+	if Input.is_action_just_pressed("zoom_in"):
+		zoom_map(zoomSpeed)
+	if Input.is_action_just_pressed("zoom_out"):
+		zoom_map(-zoomSpeed)
+	if Input.is_action_just_released("pause"):
+		Global.toggle_pause()
+
+
 func _on_HustleGraph_connection_request(from, from_slot, to, to_slot):
 	#print("From: " + from + ", " + str(from_slot))
 	#print("To: " + to + ", " + str(to_slot))
@@ -74,7 +90,7 @@ func _on_HustleGraph_disconnection_request(from, from_slot, to, to_slot):
 
 
 
-func _on_resource_dropped(graphNode : GraphNode):
+func _on_resource_card_dropped(graphNode : GraphNode):
 	if graphNode == null:
 		printerr("HustleGraph didn't get a graphNode")
 	else:

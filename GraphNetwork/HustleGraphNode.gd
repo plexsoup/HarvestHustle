@@ -79,7 +79,7 @@ func _ready():
 	set_resizable(true)
 	if resource_texture != null:
 		$TopDisplay/InfoVBox/ResourcePic.texture = resource_texture
-		$TopDisplay/InfoVBox/PopupInfoDialog/PopupHbox/ResourcePic2.texture = resource_texture
+		$CardDetailsPopup/PopupInfoDialog/PopupHbox/ResourcePic2.texture = resource_texture
 	State = States.DISABLED
 
 	generate_pitch_sequence()
@@ -144,7 +144,7 @@ func set_tone(newTone):
 func set_resource_texture(newTexture : Texture):
 	resource_texture = newTexture
 	$TopDisplay/InfoVBox/ResourcePic.texture = newTexture
-	$TopDisplay/InfoVBox/PopupInfoDialog/PopupHbox/ResourcePic2.texture = newTexture
+	$CardDetailsPopup/PopupInfoDialog/PopupHbox/ResourcePic2.texture = newTexture
 	
 #func setup_slots():
 #	for slotNode in get_children():
@@ -279,6 +279,7 @@ func _on_HustleGraphNode_resize_request(_new_minsize):
 
 func _on_HustleGraphNode_dragged(_from, _to):
 	State = States.READY
+	selected = false
 
 
 
@@ -487,3 +488,15 @@ func _on_EnableButton_toggled(button_pressed):
 		Global.audio_manager.subscribe_to_pulse_beat(self, "_on_pulse_beat")
 
 	
+
+
+func _on_HustleGraphNode_gui_input(event):
+	if Input.is_action_just_pressed("ui_select"):
+		if Input.is_class("InputEventMouseButton"):
+			if event.is_doubleclick():
+				print("double click")
+
+
+func _on_HustleGraphNode_raise_request():
+	if selected == false:
+		$TopDisplay/InfoVBox/Audio/PickupCardNoise.play()

@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://GUI/ClickBig.wav" type="AudioStream" id=1]
+[ext_resource path="res://sfx/ButtonNoises.gd" type="Script" id=2]
+[ext_resource path="res://sfx/TempNoise.tscn" type="PackedScene" id=4]
+
+[node name="ButtonNoises" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="HoverNoise" parent="." instance=ExtResource( 4 )]
+volume_db = -7.0
+
+[node name="ClickNoise" parent="." instance=ExtResource( 4 )]
+stream = ExtResource( 1 )

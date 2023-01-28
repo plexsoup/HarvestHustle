@@ -29,4 +29,4 @@ func switch_scene(sceneTitle):
 		child.queue_free()
 	var nextLevel = load(levels[sceneTitle]).instance()
 	$CurrentLevel.add_child(nextLevel)
-	
+	Global.current_level = nextLevel

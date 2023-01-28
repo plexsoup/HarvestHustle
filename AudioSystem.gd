@@ -38,6 +38,8 @@ var minor_chords = [
 var time_at_last_beat : float = 0.0
 var time_at_last_bar : float = 0.0
 
+var elapsed_time_sec : float = 0.0
+
 signal pulse_beat()
 
 
@@ -48,8 +50,9 @@ func _ready():
 func subscribe_to_pulse_beat(listenerNode, callbackFunction):
 	# nodes which need precise timing for audio events can subscribe to the audio_manager to receive timed signals
 	var err = connect("pulse_beat", listenerNode, callbackFunction)
-	if err:
-		printerr("problem in AudioSystem, subscribe_to_pulses_beat() ", err)
+	if err != OK:
+		printerr("problem in AudioSystem, subscribe_to_pulses_beat(). Error: ", err)
+
 
 func unsubscribe(uninterestedListenerNode, callbackFunction):
 	if is_connected("pulse_beat", uninterestedListenerNode, callbackFunction):
@@ -57,17 +60,25 @@ func unsubscribe(uninterestedListenerNode, callbackFunction):
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-
+func _process(delta):
+	if Global.is_paused() == true:
+		return
+	
+	elapsed_time_sec += delta
+	
 	var bpm = Global.bpm
-	var beat_duration = 60 / bpm
+	var beat_duration = 60.0 / bpm
 
-	if Time.get_ticks_msec() - time_at_last_beat > beat_duration * 1000:
+	if elapsed_time_sec - time_at_last_beat > beat_duration:
 		emit_signal("pulse_beat")
-		time_at_last_beat = Time.get_ticks_msec()
+		time_at_last_beat = elapsed_time_sec
+#	else:
+#		print("elapsed: ", elapsed_time_sec, ", last_beat: ", time_at_last_beat, ", duration: ", beat_duration)
+
 
 func get_next_pitch_scale():
 	pass
+
 
 func play_chord():
 	# Create four audio players

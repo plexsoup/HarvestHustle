@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://GraphNetwork/DraggableResourceSprite.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
 
 [node name="DraggableResourceSprite" type="Sprite"]
+z_index = 10
+z_as_relative = false
+texture = ExtResource( 2 )
 script = ExtResource( 1 )

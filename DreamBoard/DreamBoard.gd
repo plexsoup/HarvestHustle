@@ -23,6 +23,7 @@ func reroll_selectors():
 
 
 func _on_StartGameButton_pressed():
+	$ButtonNoises.click()
 	Global.portrait_image = $VBoxContainer/Body/Character.imageNode.texture
 	Global.objective_image = $VBoxContainer/Body/ObjectiveCard.imageNode.texture
 	Global.aptitude_image = $VBoxContainer/Body/HBoxContainer/AptitudeCard.imageNode.texture
@@ -32,4 +33,9 @@ func _on_StartGameButton_pressed():
 
 
 func _on_RerollButton_pressed():
+	$ButtonNoises.click()
 	reroll_selectors()
+
+
+func _on_Button_hover():
+	$ButtonNoises.hover()

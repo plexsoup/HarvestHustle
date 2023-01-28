@@ -58,21 +58,7 @@ func _ready():
 	setup_graph_node()
 	custom_startup_behaviour()
 		
-	#delayed_ready(0.25) # let parents initialize first
 
-
-#func delayed_ready(timeToWait):
-#	var timer = get_tree().create_timer(timeToWait)
-#	yield(timer, "timeout")
-#	pass
-##	var err = connect("resource_dropped", Global.hustle_graph, "_on_resource_dropped")
-##	if err != OK:
-##		printerr(self.name + " ResourceCard.gd")
-##		printerr(err)
-#
-#	if resource_image != null:
-#		$ResourceImage.texture = resource_image
-#		$ResourceImage.show()
 
 func setup_graph_node():
 	var graphNode = $HustleGraphNode
@@ -134,16 +120,13 @@ func set_category(myCategory):
 func spawn_sprite():
 	var newSprite = DraggableResourceSprite.new()
 	newSprite.texture = resource_image
-	newSprite.scale = Vector2.ONE * 0.1
+	newSprite.scale = Vector2.ONE * 0.5
 	newSprite.set_graph_node($HustleGraphNode)
 
 	# hot potato with this HustleGraphNode
 	remove_child($HustleGraphNode)
-	Global.hustle_graph.add_child(newSprite)
-
+	Global.current_level.add_child(newSprite)
 	
-
-
 func _on_ResourceCard_gui_input(event):
 	if State != States.READY:
 		return
@@ -152,8 +135,13 @@ func _on_ResourceCard_gui_input(event):
 		#if Global.player.cash >= price:
 		Global.player.cash -= price # allow debt
 		# drag the card onto the stage
+		$ButtonNoises.click()
 		spawn_sprite()
 		queue_free()
 			
 		
 
+
+
+func _on_ResourceCard_mouse_entered():
+	$ButtonNoises.hover()

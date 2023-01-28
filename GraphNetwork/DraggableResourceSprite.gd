@@ -12,13 +12,14 @@ signal sprite_dropped()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	var _err = connect("sprite_dropped", Global.hustle_graph, "_on_resource_dropped")
+	var _err = connect("sprite_dropped", Global.hustle_graph, "_on_resource_card_dropped")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if Input.is_action_pressed("click"):
-		position = Global.hustle_graph.get_local_mouse_position()
+		global_position = get_global_mouse_position()
+		#position = Global.hustle_graph.get_local_mouse_position()
 	else:
 		switch_to_node()
 		
