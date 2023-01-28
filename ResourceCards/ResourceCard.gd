@@ -120,7 +120,7 @@ func set_category(myCategory):
 func spawn_sprite():
 	var newSprite = DraggableResourceSprite.new()
 	newSprite.texture = resource_image
-	newSprite.scale = Vector2.ONE * 0.5
+	newSprite.scale = Vector2.ONE * 0.4
 	newSprite.set_graph_node($HustleGraphNode)
 
 	# hot potato with this HustleGraphNode
@@ -145,3 +145,7 @@ func _on_ResourceCard_gui_input(event):
 
 func _on_ResourceCard_mouse_entered():
 	$ButtonNoises.hover()
+	$ResourceImage.margin_bottom += 5
+
+func _on_Button_unhover():
+	$ResourceImage.margin_bottom -= 5

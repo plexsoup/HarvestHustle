@@ -12,6 +12,8 @@ var hustle_graph_node = load("res://GraphNetwork/HustleGraphNode.tscn")
 const port_grab_distance_horizontal = 48
 const port_grab_distance_vertical = 48
 
+var scroll_speed : float = 50.0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	OS.set_low_processor_usage_mode(true)
@@ -63,6 +65,19 @@ func _unhandled_input(_event):
 		zoom_map(-zoomSpeed)
 	if Input.is_action_just_released("pause"):
 		Global.toggle_pause()
+
+	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	if direction != Vector2.ZERO:
+		scroll_map(direction)
+
+		
+func scroll_map(direction : Vector2):
+	var dash = 1.0
+	if Input.is_action_pressed("dash"):
+		dash = 5.0
+	var tween = get_tree().create_tween()
+	tween.tween_property(self, "scroll_offset", scroll_offset + (direction*scroll_speed*dash), 0.1)
+	
 
 
 func _on_HustleGraph_connection_request(from, from_slot, to, to_slot):
