@@ -16,6 +16,12 @@ func init(portraitImage : Texture, objectiveImage : Texture):
 	$VBoxContainer/Body/Objective/ObjectiveTex.texture = objectiveImage
 	
 
+func _unhandled_input(_event):
+	if Input.is_action_just_released("pause"):
+		Global.toggle_pause()
+		if Global.is_paused():
+			$VBoxContainer/Body/Board/InstructionsPanel.popup_centered_ratio(0.667)
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -23,7 +29,8 @@ func init(portraitImage : Texture, objectiveImage : Texture):
 
 
 func _on_Panel_popup_hide():
-	$VBoxContainer/Body/Board/Panel.queue_free()
+	#$VBoxContainer/Body/Board/InstructionsPanel.hide()
+	pass
 
 func spawn_new_card():
 	var hand = find_node("PlayerHand")

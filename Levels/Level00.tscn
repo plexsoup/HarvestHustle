@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Player/Cursor.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GraphNetwork/HustleGraph.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ResourceCards/Suppliers/DayJob.tscn" type="PackedScene" id=3]
+[ext_resource path="res://GUI/InstructionsPanel.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Levels/Upgrades.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Levels/Level.gd" type="Script" id=6]
 [ext_resource path="res://ResourceCards/Customers/BankDeposits.tscn" type="PackedScene" id=7]
@@ -95,58 +96,13 @@ margin_right = 874.0
 margin_bottom = 583.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-scroll_offset = Vector2( -328, 0 )
+scroll_offset = Vector2( -328, -10 )
 
-[node name="Panel" type="AcceptDialog" parent="VBoxContainer/Body/Board"]
-visible = true
-margin_left = 106.0
-margin_top = 109.0
-margin_right = 606.0
-margin_bottom = 409.0
-rect_min_size = Vector2( 500, 300 )
-mouse_filter = 2
-window_title = "Instructions"
-resizable = true
-
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Body/Board/Panel"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 8.0
-margin_right = -8.0
-margin_bottom = -36.0
-custom_constants/margin_right = 20
-custom_constants/margin_top = 20
-custom_constants/margin_left = 20
-custom_constants/margin_bottom = 20
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Body/Board/Panel/MarginContainer"]
-margin_left = 20.0
-margin_top = 20.0
-margin_right = 464.0
-margin_bottom = 236.0
-custom_constants/separation = 20
-
-[node name="Label1" type="Label" parent="VBoxContainer/Body/Board/Panel/MarginContainer/VBoxContainer"]
-margin_right = 444.0
-margin_bottom = 48.0
-text = "1. Drag all of the resources from the left sidebar into the middle of the screen.
-"
-autowrap = true
-
-[node name="Label2" type="Label" parent="VBoxContainer/Body/Board/Panel/MarginContainer/VBoxContainer"]
-margin_top = 68.0
-margin_right = 444.0
-margin_bottom = 99.0
-text = "2. Connect your day job to your bank account by dragging the output slot to the input slot."
-autowrap = true
-
-[node name="Label3" type="Label" parent="VBoxContainer/Body/Board/Panel/MarginContainer/VBoxContainer"]
-margin_top = 119.0
-margin_right = 444.0
-margin_bottom = 133.0
-text = "3. Making connections cost money"
-autowrap = true
+[node name="InstructionsPanel" parent="VBoxContainer/Body/Board" instance=ExtResource( 4 )]
+margin_left = -679.0
+margin_top = 90.0
+margin_right = -179.0
+margin_bottom = 390.0
 
 [node name="Objective" parent="VBoxContainer/Body" instance=ExtResource( 8 )]
 margin_bottom = 583.0
@@ -154,5 +110,3 @@ margin_bottom = 583.0
 [node name="Deck" parent="." instance=ExtResource( 9 )]
 
 [node name="Cursor" parent="." instance=ExtResource( 1 )]
-
-[connection signal="popup_hide" from="VBoxContainer/Body/Board/Panel" to="." method="_on_Panel_popup_hide"]

@@ -21,7 +21,7 @@ func _ready():
 	add_valid_connection_type(0,0)
 	Global.hustle_graph = self
 	
-	$Panel.popup_centered()
+	$InstructionsPanel.popup_centered()
 	
 	update()
 	
@@ -63,8 +63,7 @@ func _unhandled_input(_event):
 		zoom_map(zoomSpeed)
 	if Input.is_action_just_pressed("zoom_out"):
 		zoom_map(-zoomSpeed)
-	if Input.is_action_just_released("pause"):
-		Global.toggle_pause()
+
 
 	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	if direction != Vector2.ZERO:
