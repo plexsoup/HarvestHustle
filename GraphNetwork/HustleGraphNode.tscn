@@ -118,16 +118,30 @@ margin_bottom = 182.0
 mouse_filter = 2
 alignment = 1
 
+[node name="RestClock" type="TextureProgress" parent="TopDisplay/InfoVBox/HBoxContainer"]
+margin_left = 41.0
+margin_right = 61.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 20, 20 )
+mouse_filter = 2
+max_value = 1.0
+step = 0.05
+texture_under = ExtResource( 4 )
+texture_over = ExtResource( 2 )
+texture_progress = ExtResource( 3 )
+fill_mode = 4
+nine_patch_stretch = true
+
 [node name="ShortDescLabel" type="Label" parent="TopDisplay/InfoVBox/HBoxContainer"]
-margin_left = 53.0
+margin_left = 65.0
 margin_top = 3.0
-margin_right = 122.0
+margin_right = 134.0
 margin_bottom = 17.0
 text = "short_desc"
 
 [node name="ProductionProgressClock" type="TextureProgress" parent="TopDisplay/InfoVBox/HBoxContainer"]
-margin_left = 126.0
-margin_right = 146.0
+margin_left = 138.0
+margin_right = 158.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 20, 20 )
 mouse_filter = 2

@@ -110,7 +110,8 @@ func activate():
 		# connect to the pulse from audio_manager
 		Global.audio_manager.subscribe_to_pulse_beat(self, "_on_pulse_beat")
 		State = States.WAITING_FOR_PULSE
-
+		
+		
 	else:
 		State = States.READY
 		#$TopDisplay/InfoVBox/RestTimer.start()
@@ -260,6 +261,10 @@ func update_production_timer():
 	var prodClock = $TopDisplay/InfoVBox/HBoxContainer/ProductionProgressClock
 	if not prodTimer.is_stopped():
 		prodClock.value = prodTimer.time_left / prodTimer.get_wait_time()
+	var restTimer = $TopDisplay/InfoVBox/RestTimer
+	var restClock = $TopDisplay/InfoVBox/HBoxContainer/RestClock
+	if not restTimer.is_stopped():
+		restClock.value = restTimer.time_left / restTimer.get_wait_time()
 
 
 # Warn users if the value hasn't been set.

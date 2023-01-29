@@ -9,7 +9,7 @@ var audio_manager
 var card_database
 var paused : bool = false
 
-var bpm : float = 75.0
+var bpm : float = 90.0
 var spb : float = 1.0/(bpm/60.0)
 
 var portrait_image : Texture
